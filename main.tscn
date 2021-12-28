@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://player/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://ground/ground.tscn" type="PackedScene" id=2]
@@ -6,6 +6,11 @@
 [ext_resource path="res://ore_map/ore_map.tscn" type="PackedScene" id=4]
 [ext_resource path="res://targeting_mesh/target_mesh.gd" type="Script" id=5]
 [ext_resource path="res://player/player.gd" type="Script" id=6]
+[ext_resource path="res://images/inventory.png" type="Texture" id=7]
+[ext_resource path="res://images/inventory_selector.png" type="Texture" id=8]
+[ext_resource path="res://inventory.gd" type="Script" id=9]
+[ext_resource path="res://images/iron_chunk.png" type="Texture" id=10]
+[ext_resource path="res://inventory_icon.tscn" type="PackedScene" id=11]
 
 [sub_resource type="ArrayMesh" id=1]
 
@@ -15,7 +20,7 @@ _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 1, Vector2( 1, 1 ), 0.0, 0.0, 1, 0 ]
 [sub_resource type="CurveTexture" id=3]
 curve = SubResource( 2 )
 
-[node name="Node2D" type="Node2D"]
+[node name="Node" type="Node"]
 
 [node name="Ground" parent="." instance=ExtResource( 2 )]
 
@@ -33,6 +38,9 @@ hit_position_path = NodePath("KinematicBody2D/Position2D")
 [node name="KinematicBody2D" parent="Player" index="0"]
 speed = 10000.0
 
+[node name="AnimatedSprite" parent="Player/KinematicBody2D" index="1"]
+frame = 1
+
 [node name="MeshInstance2D" type="MeshInstance2D" parent="."]
 mesh = SubResource( 1 )
 texture = SubResource( 3 )
@@ -40,5 +48,123 @@ script = ExtResource( 5 )
 player = NodePath("../Player/KinematicBody2D/Position2D")
 
 [node name="TileMap" parent="." instance=ExtResource( 4 )]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Inventory" type="TextureRect" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -250.0
+margin_top = -50.0
+margin_right = 250.0
+rect_pivot_offset = Vector2( 0, 50 )
+texture = ExtResource( 7 )
+stretch_mode = 3
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+inventory_icon_scene = ExtResource( 11 )
+selector_indicator = NodePath("Control/inventory_selector")
+iron_chunk_texture = ExtResource( 10 )
+
+[node name="Control" type="Control" parent="CanvasLayer/Inventory"]
+margin_left = 3.11813
+margin_top = 4.8999
+margin_right = 43.1181
+margin_bottom = 44.8999
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="inventory_selector" type="TextureRect" parent="CanvasLayer/Inventory/Control"]
+texture = ExtResource( 8 )
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control2" type="Control" parent="CanvasLayer/Inventory"]
+margin_left = 49.4449
+margin_top = 4.45447
+margin_right = 89.4449
+margin_bottom = 44.4545
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control3" type="Control" parent="CanvasLayer/Inventory"]
+margin_left = 96.2171
+margin_top = 4.45447
+margin_right = 136.217
+margin_bottom = 44.4545
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control4" type="Control" parent="CanvasLayer/Inventory"]
+margin_left = 143.435
+margin_top = 4.00897
+margin_right = 183.435
+margin_bottom = 44.009
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control5" type="Control" parent="CanvasLayer/Inventory"]
+margin_left = 189.316
+margin_top = 3.1181
+margin_right = 229.316
+margin_bottom = 43.1181
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control6" type="Control" parent="CanvasLayer/Inventory"]
+margin_left = 271.724
+margin_top = 3.56348
+margin_right = 311.724
+margin_bottom = 43.5635
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control7" type="Control" parent="CanvasLayer/Inventory"]
+margin_left = 316.269
+margin_top = 4.45447
+margin_right = 356.269
+margin_bottom = 44.4545
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control8" type="Control" parent="CanvasLayer/Inventory"]
+margin_left = 363.932
+margin_top = 5.79077
+margin_right = 403.932
+margin_bottom = 45.7908
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control9" type="Control" parent="CanvasLayer/Inventory"]
+margin_left = 410.259
+margin_top = 5.34528
+margin_right = 450.259
+margin_bottom = 45.3453
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control10" type="Control" parent="CanvasLayer/Inventory"]
+margin_left = 457.031
+margin_top = 5.34528
+margin_right = 497.031
+margin_bottom = 45.3453
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [editable path="Player"]
