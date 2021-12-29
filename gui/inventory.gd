@@ -34,20 +34,22 @@ func _input(event):
             selector_node.get_parent().remove_child(selector_node)
             new_parent.add_child(selector_node)
         elif key_event.scancode == KEY_UP and key_event.is_pressed():
-            var child = get_child(get_selected_index())
-            if inventory[get_selected_index()] != null:
-                var item = inventory[get_selected_index()]
-                item.quantity += 1
-                child.get_node("InventoryIcon").get_node("Label").set_text(item.quantity as String)
-            else:
-                var item = Item.new()
-                var item_icon = inventory_icon_scene.instance()
-                var texture = item_icon.get_node("TextureRect")
-                texture.texture = iron_chunk_texture
-                item.inventory_image = iron_chunk_texture
-                inventory[get_selected_index()] = item
-                child.add_child(item_icon)
+            pass
 
+func add_item(item_stack):
+    var child = get_child(get_selected_index())
+    if inventory[get_selected_index()] != null:
+        var inventory_item_stack = inventory[get_selected_index()]
+        inventory_item_stack.quantity += item_stack.quantity
+        child.get_node("InventoryIcon").get_node("Label").set_text(inventory_item_stack.quantity as String)
+    else:
+        var item_icon = inventory_icon_scene.instance()
+        var texture = item_icon.get_node("TextureRect")
+        texture.texture = iron_chunk_texture
+        item_stack.quantity = 1
+        inventory[get_selected_index()] = item_stack
+        child.add_child(item_icon)
+        child.get_node("InventoryIcon").get_node("Label").set_text(item_stack.quantity as String)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

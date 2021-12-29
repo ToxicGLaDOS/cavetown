@@ -7,6 +7,7 @@ extends Node2D
 
 export(NodePath) var tilemap_path
 export(NodePath) var hit_position_path
+export(NodePath) var inventory_path
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -20,6 +21,10 @@ func break_ore():
         var hit_y = floor(hit_position.y / tilemap.cell_size.y)
         
         var hit_cell = tilemap.hit_cell(hit_x, hit_y)
+
+# Called by an item to tell the player to pick it up
+func pickup_item(item_stack):
+    get_node(inventory_path).add_item(item_stack)
 
 func _input(event):
     if event is InputEventKey and event.pressed and event.scancode == KEY_SPACE:

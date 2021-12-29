@@ -10,12 +10,12 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Reference",
-"class": "Item",
+"class": "ItemStack",
 "language": "GDScript",
-"path": "res://item.gd"
+"path": "res://items/item_stack.gd"
 } ]
 _global_script_class_icons={
-"Item": ""
+"ItemStack": ""
 }
 
 [application]
