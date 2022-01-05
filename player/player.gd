@@ -8,6 +8,7 @@ extends Node2D
 export(NodePath) var tilemap_path
 export(NodePath) var hit_position_path
 export(NodePath) var inventory_path
+export(NodePath) var sword_path
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -26,9 +27,14 @@ func break_ore():
 func pickup_item(item_stack):
     get_node(inventory_path).add_item(item_stack)
 
+func swing_sword():
+    get_node(sword_path).swing()
+
 func _input(event):
     if event is InputEventKey and event.pressed and event.scancode == KEY_SPACE:
         break_ore()
+    if event is InputEventKey and event.pressed and event.scancode == KEY_E:
+        swing_sword()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

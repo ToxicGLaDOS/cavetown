@@ -36,10 +36,8 @@ inventory_path = NodePath("../CanvasLayer/Inventory")
 [node name="KinematicBody2D" parent="Player" index="0"]
 speed = 10000.0
 
-[node name="AnimatedSprite" parent="Player/KinematicBody2D" index="1"]
-frame = 0
-
 [node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+visible = false
 mesh = SubResource( 1 )
 texture = SubResource( 3 )
 script = ExtResource( 5 )
