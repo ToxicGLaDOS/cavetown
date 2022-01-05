@@ -28,6 +28,7 @@ func pickup_item(item_stack):
     get_node(inventory_path).add_item(item_stack)
 
 func swing_sword():
+    get_node(sword_path).set_process(true)
     get_node(sword_path).swing()
 
 func _input(event):
