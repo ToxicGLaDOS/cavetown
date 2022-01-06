@@ -7,10 +7,13 @@ extends MeshInstance2D
 
 var bar_width = 2
 var width = 16
-export(NodePath) var player
+var player: Node2D
+export(NodePath) var player_path
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+    player = get_node(player_path)
+
     var vertices = PoolVector3Array()
     vertices.push_back(Vector3(0, 0, 0))
     vertices.push_back(Vector3(width, 0, 0))
@@ -58,8 +61,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-        var x = floor(get_node(player).global_position.x / 16) * 16
-        var y = floor(get_node(player).global_position.y / 16) * 16
+        var x = floor(player.hit_position.global_position.x / 16) * 16
+        var y = floor(player.hit_position.global_position.y / 16) * 16
         position = Vector2(x, y)
 
 

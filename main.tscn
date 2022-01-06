@@ -12,13 +12,13 @@
 [ext_resource path="res://images/iron_chunk.png" type="Texture" id=10]
 [ext_resource path="res://gui/inventory_icon.tscn" type="PackedScene" id=11]
 
-[sub_resource type="ArrayMesh" id=1]
+[sub_resource type="ArrayMesh" id=13]
 
-[sub_resource type="Curve" id=2]
+[sub_resource type="Curve" id=12]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 1, Vector2( 1, 1 ), 0.0, 0.0, 1, 0 ]
 
-[sub_resource type="CurveTexture" id=3]
-curve = SubResource( 2 )
+[sub_resource type="CurveTexture" id=14]
+curve = SubResource( 12 )
 
 [node name="Node" type="Node"]
 
@@ -33,16 +33,6 @@ position = Vector2( 336.604, 120.412 )
 scale = Vector2( 0.5, 0.5 )
 tilemap_path = NodePath("../Ore")
 inventory_path = NodePath("../CanvasLayer/Inventory")
-
-[node name="KinematicBody2D" parent="Player" index="0"]
-speed = 10000.0
-
-[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
-visible = false
-mesh = SubResource( 1 )
-texture = SubResource( 3 )
-script = ExtResource( 5 )
-player = NodePath("../Player/KinematicBody2D/Position2D")
 
 [node name="Ore" parent="." instance=ExtResource( 4 )]
 
@@ -166,5 +156,12 @@ __meta__ = {
 
 [node name="Slime" parent="." instance=ExtResource( 6 )]
 position = Vector2( 411.187, 128.723 )
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+position = Vector2( -20, 0 )
+mesh = SubResource( 13 )
+texture = SubResource( 14 )
+script = ExtResource( 5 )
+player_path = NodePath("../Player")
 
 [editable path="Player"]

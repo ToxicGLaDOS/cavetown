@@ -1,25 +1,66 @@
-extends Node2D
-
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+extends KinematicBody2D
 
 export(NodePath) var tilemap_path
 export(NodePath) var hit_position_path
 export(NodePath) var inventory_path
 export(NodePath) var sword_path
+export(NodePath) var animated_sprite_path
 
-# Called when the node enters the scene tree for the first time.
+export(float) var speed
+
+var tilemap: TileMap
+var hit_position: Position2D
+var animated_sprite: AnimatedSprite
+# The distance away from the character that we're hitting
+var hit_position_distance: float
+
+enum Direction {UP, LEFT, DOWN, RIGHT}
+
 func _ready():
-    pass # Replace with function body.
+    tilemap = get_node(tilemap_path)
+    hit_position = get_node(hit_position_path)
+    animated_sprite = get_node(animated_sprite_path)
+    hit_position_distance = hit_position.position.length()
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+    if Input.is_key_pressed(KEY_W):
+        move_and_slide(Vector2(0, -1) * speed * delta)
+        rotate_character(Direction.UP)
+    if Input.is_key_pressed(KEY_A):
+        move_and_slide(Vector2(-1, 0) * speed * delta)
+        rotate_character(Direction.LEFT)
+    if Input.is_key_pressed(KEY_S):
+        move_and_slide(Vector2(0, 1) * speed * delta)
+        rotate_character(Direction.DOWN)
+    if Input.is_key_pressed(KEY_D):
+        move_and_slide(Vector2(1, 0) * speed * delta)
+        rotate_character(Direction.RIGHT)
+
+func rotate_character(direction):
+    if direction == Direction.UP:
+        animated_sprite.animation = "up"
+        hit_position.position = Vector2(0, 2 * -hit_position_distance)
+        hit_position.rotation_degrees = -90
+    elif direction == Direction.LEFT:
+        animated_sprite.animation = "left"
+        hit_position.position = Vector2(-hit_position_distance, 0)
+        hit_position.rotation_degrees = 180
+    elif direction == Direction.DOWN:
+        animated_sprite.animation = "down"
+        hit_position.position = Vector2(0, 2 * hit_position_distance)
+        hit_position.rotation_degrees = 90
+    elif direction == Direction.RIGHT:
+        animated_sprite.animation = "right"
+        hit_position.position = Vector2(hit_position_distance, 0) 
+        hit_position.rotation_degrees = 0
 
 func break_ore():
-        var hit_position = get_node(hit_position_path).global_position
-        var tilemap = get_node(tilemap_path)
+        var position = hit_position.global_position
         
-        var hit_x = floor(hit_position.x / tilemap.cell_size.x)
-        var hit_y = floor(hit_position.y / tilemap.cell_size.y)
+        var hit_x = floor(position.x / tilemap.cell_size.x)
+        var hit_y = floor(position.y / tilemap.cell_size.y)
         
         var hit_cell = tilemap.hit_cell(hit_x, hit_y)
 
@@ -36,7 +77,3 @@ func _input(event):
         break_ore()
     if event is InputEventKey and event.pressed and event.scancode == KEY_E:
         swing_sword()
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
