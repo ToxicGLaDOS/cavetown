@@ -9,5 +9,9 @@ func _on_body_entered(body):
         var item_stack = ItemStack.new()
         item_stack.item = item
         item_stack.quantity = 1
-        body.pickup_item(item_stack)
+        # We only want to pickup the item if _we_ are the
+        # player who stepped on it. Otherwise we just destroy
+        # it from our node tree
+        if body.is_network_master():
+            body.pickup_item(item_stack)
         queue_free()

@@ -18,9 +18,12 @@ func _on_animation_finished(anim_name):
         hitbox.monitoring = false
 
 func _on_body_entered(body):
-    if body.is_in_group("enemies"):
+    # We only want the network master to tell us when they
+    # hit an enemy because if everyone does it, then we'll
+    # deal 1 damage per player when anyone hits an enemy
+    if body.is_in_group("enemies") and is_network_master():
         print("hit slime")
-        body.deal_damage(1)
+        body.rpc("deal_damage", 1)
 
 func swing():
     visible = true

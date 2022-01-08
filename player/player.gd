@@ -14,9 +14,9 @@ var animated_sprite: AnimatedSprite
 # The distance away from the character that we're hitting
 var hit_position_distance: float
 
-puppet var puppet_pos = Vector2()
-
 enum Direction {UP, LEFT, DOWN, RIGHT}
+
+puppet var puppet_pos = Vector2()
 
 func _ready():
     tilemap = get_node("/root/World/Ore")
@@ -31,22 +31,22 @@ func _process(delta):
     if is_network_master():
         if Input.is_key_pressed(KEY_W):
             move_and_slide(Vector2(0, -1) * speed * delta)
-            rotate_character(Direction.UP)
+            rpc("rotate_character", Direction.UP)
         if Input.is_key_pressed(KEY_A):
             move_and_slide(Vector2(-1, 0) * speed * delta)
-            rotate_character(Direction.LEFT)
+            rpc("rotate_character", Direction.LEFT)
         if Input.is_key_pressed(KEY_S):
             move_and_slide(Vector2(0, 1) * speed * delta)
-            rotate_character(Direction.DOWN)
+            rpc("rotate_character", Direction.DOWN)
         if Input.is_key_pressed(KEY_D):
             move_and_slide(Vector2(1, 0) * speed * delta)
-            rotate_character(Direction.RIGHT)
+            rpc("rotate_character", Direction.RIGHT)
         rset("puppet_pos", position)
     else:
         position = puppet_pos
 
 
-func rotate_character(direction):
+remotesync func rotate_character(direction):
     if direction == Direction.UP:
         animated_sprite.animation = "up"
         hit_position.position = Vector2(0, 2 * -hit_position_distance)
@@ -64,7 +64,7 @@ func rotate_character(direction):
         hit_position.position = Vector2(hit_position_distance, 0) 
         hit_position.rotation_degrees = 0
 
-func break_ore():
+remotesync func break_ore():
         var position = hit_position.global_position
         
         var hit_x = floor(position.x / tilemap.cell_size.x)
@@ -76,12 +76,14 @@ func break_ore():
 func pickup_item(item_stack):
     get_node("/root/World/CanvasLayer/Inventory").add_item(item_stack)
 
-func swing_sword():
+
+remotesync func swing_sword():
     get_node(sword_path).set_process(true)
     get_node(sword_path).swing()
 
 func _input(event):
-    if event is InputEventKey and event.pressed and event.scancode == KEY_SPACE:
-        break_ore()
-    if event is InputEventKey and event.pressed and event.scancode == KEY_E:
-        swing_sword()
+    if get_tree().network_peer != null && is_network_master():
+        if event is InputEventKey and event.pressed and event.scancode == KEY_SPACE:
+            rpc("break_ore")
+        if event is InputEventKey and event.pressed and event.scancode == KEY_E:
+            rpc("swing_sword")
