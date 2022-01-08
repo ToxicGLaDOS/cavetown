@@ -23,6 +23,9 @@ var ip_address_input: TextEdit
 var name_input_root: Control
 var network_manager: Node
 var connecting_root: Control
+var server: WebSocketServer
+var client: WebSocketClient
+var peer: NetworkedMultiplayerENet
 
 const SERVER_PORT = 42069
 const MAX_PLAYERS = 4
@@ -40,6 +43,14 @@ func _ready():
     network_manager = get_node(network_manager_path)
     connecting_root = get_node(connecting_root_path)
 
+func _process(delta):
+    if server != null:
+        if server.is_listening():
+            server.poll()
+    if client != null:
+        if client.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED or client.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTING:
+            client.poll()
+
 func _on_host_button_pressed():
     print("Pressed host")
     host_info_root.visible = true
@@ -47,22 +58,38 @@ func _on_host_button_pressed():
     host_button.visible = false
     connect_to_server_button.visible = false
     name_input_root.visible = false
-    # Register ourselves
-    network_manager.register_player({name = get_name()})
-    var peer = NetworkedMultiplayerENet.new()
+    network_manager.add_self_to_players()
+
+    server = WebSocketServer.new()
+    server.listen(SERVER_PORT, PoolStringArray(), true)
+    get_tree().set_network_peer(server)
+
+    peer = NetworkedMultiplayerENet.new()
     peer.create_server(SERVER_PORT, MAX_PLAYERS)
-    get_tree().network_peer = peer
+    #get_tree().set_network_peer(peer)
+    #server.connect("network_peer_connected", self, "foo")
+
+func foo():
+    print("OMGOMODMOGMOGMOMGOMGOMGO")
 
 func _on_connect_button_pressed():
     connect_to_server_button.visible = false
     connect_gui_root.visible = false
     name_input_root.visible = false
     connecting_root.visible = true
-
+    network_manager.add_self_to_players()
+    
     var ip_address = ip_address_input.text
-    var peer = NetworkedMultiplayerENet.new()
-    peer.create_client(ip_address, SERVER_PORT)
-    get_tree().network_peer = peer
+    if OS.get_name() == "HTML5":
+        var url = "ws://" + ip_address + ":" + SERVER_PORT as String
+        client = WebSocketClient.new()
+        var error = client.connect_to_url(url, PoolStringArray(), true)
+        get_tree().network_peer = client
+        print(error)
+    else:
+        var peer = NetworkedMultiplayerENet.new()
+        peer.create_client(ip_address, SERVER_PORT)
+        get_tree().network_peer = peer
 
 func _on_connect_to_server_button_pressed():
     print("Pressed connect")

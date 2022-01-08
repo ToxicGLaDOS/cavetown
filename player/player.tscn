@@ -63,6 +63,7 @@ animations = [ {
 } ]
 
 [node name="KinematicBody2D" type="KinematicBody2D" groups=["player"]]
+scale = Vector2( 0.5, 0.5 )
 script = ExtResource( 3 )
 hit_position_path = NodePath("Position2D")
 sword_path = NodePath("Position2D/Sprite")
@@ -75,6 +76,7 @@ shape = SubResource( 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 10 )
 animation = "right"
+frame = 1
 speed_scale = 0.2
 playing = true
 

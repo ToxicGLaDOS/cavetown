@@ -14,10 +14,12 @@ var animated_sprite: AnimatedSprite
 # The distance away from the character that we're hitting
 var hit_position_distance: float
 
+puppet var puppet_pos = Vector2()
+
 enum Direction {UP, LEFT, DOWN, RIGHT}
 
 func _ready():
-    tilemap = get_node(tilemap_path)
+    tilemap = get_node("/root/World/Ore")
     hit_position = get_node(hit_position_path)
     animated_sprite = get_node(animated_sprite_path)
     hit_position_distance = hit_position.position.length()
@@ -25,18 +27,24 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-    if Input.is_key_pressed(KEY_W):
-        move_and_slide(Vector2(0, -1) * speed * delta)
-        rotate_character(Direction.UP)
-    if Input.is_key_pressed(KEY_A):
-        move_and_slide(Vector2(-1, 0) * speed * delta)
-        rotate_character(Direction.LEFT)
-    if Input.is_key_pressed(KEY_S):
-        move_and_slide(Vector2(0, 1) * speed * delta)
-        rotate_character(Direction.DOWN)
-    if Input.is_key_pressed(KEY_D):
-        move_and_slide(Vector2(1, 0) * speed * delta)
-        rotate_character(Direction.RIGHT)
+    # Make sure that we only move ourselves
+    if is_network_master():
+        if Input.is_key_pressed(KEY_W):
+            move_and_slide(Vector2(0, -1) * speed * delta)
+            rotate_character(Direction.UP)
+        if Input.is_key_pressed(KEY_A):
+            move_and_slide(Vector2(-1, 0) * speed * delta)
+            rotate_character(Direction.LEFT)
+        if Input.is_key_pressed(KEY_S):
+            move_and_slide(Vector2(0, 1) * speed * delta)
+            rotate_character(Direction.DOWN)
+        if Input.is_key_pressed(KEY_D):
+            move_and_slide(Vector2(1, 0) * speed * delta)
+            rotate_character(Direction.RIGHT)
+        rset("puppet_pos", position)
+    else:
+        position = puppet_pos
+
 
 func rotate_character(direction):
     if direction == Direction.UP:
@@ -66,7 +74,7 @@ func break_ore():
 
 # Called by an item to tell the player to pick it up
 func pickup_item(item_stack):
-    get_node(inventory_path).add_item(item_stack)
+    get_node("/root/World/CanvasLayer/Inventory").add_item(item_stack)
 
 func swing_sword():
     get_node(sword_path).set_process(true)

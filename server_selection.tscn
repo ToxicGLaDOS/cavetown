@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://server_ui_manager.gd" type="Script" id=1]
 [ext_resource path="res://networking_manager.gd" type="Script" id=2]
+[ext_resource path="res://main.tscn" type="PackedScene" id=3]
+[ext_resource path="res://player/player.tscn" type="PackedScene" id=4]
 
 [node name="Control" type="CanvasLayer"]
 script = ExtResource( 1 )
@@ -13,7 +15,7 @@ connect_to_server_button_path = NodePath("ReferenceRect/HBoxContainer/ConnectToS
 back_button_path = NodePath("ReferenceRect/HostingGui/ButtonsHBox/BackButton")
 ip_address_input_path = NodePath("ReferenceRect/ConnectGui/InputsHBox/IpAddressVBox/IpAddressInput")
 name_input_root_path = NodePath("ReferenceRect/NameVBox")
-network_manager_path = NodePath("Node")
+network_manager_path = NodePath("NetworkManager")
 connecting_root_path = NodePath("ReferenceRect/ConnectingVBox")
 
 [node name="ReferenceRect" type="ReferenceRect" parent="."]
@@ -311,14 +313,17 @@ text = "Connecting..."
 align = 1
 valign = 1
 
-[node name="Node" type="Node" parent="."]
+[node name="NetworkManager" type="Node" parent="."]
 script = ExtResource( 2 )
 players_list_path = NodePath("../ReferenceRect/PlayersListVBox/PlayersListLabel")
 server_ui_path = NodePath("..")
 connecting_root_path = NodePath("../ReferenceRect/ConnectingVBox")
+main_scene = ExtResource( 3 )
+player_scene = ExtResource( 4 )
 
 [connection signal="pressed" from="ReferenceRect/HBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="ReferenceRect/HBoxContainer/ConnectToServerButton" to="." method="_on_connect_to_server_button_pressed"]
 [connection signal="pressed" from="ReferenceRect/ConnectGui/ButtonsHBox/BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="ReferenceRect/ConnectGui/ButtonsHBox/ConnectButton" to="." method="_on_connect_button_pressed"]
 [connection signal="pressed" from="ReferenceRect/HostingGui/ButtonsHBox/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="ReferenceRect/HostingGui/ButtonsHBox/Button" to="NetworkManager" method="_start_game"]
