@@ -23,7 +23,7 @@ var ip_address_input: TextEdit
 var name_input_root: Control
 var network_manager: Node
 var connecting_root: Control
-var server: WebSocketServer
+var server: MyServer
 var client: WebSocketClient
 var peer: NetworkedMultiplayerENet
 
@@ -43,10 +43,16 @@ func _ready():
     network_manager = get_node(network_manager_path)
     connecting_root = get_node(connecting_root_path)
 
+
 func _process(delta):
     if server != null:
         if server.is_listening():
             server.poll()
+            #print(server.get_available_packet_count())
+            #if server.get_available_packet_count() > 0:
+            #    get_tree().set_network_peer(server)
+            #else:
+            #    get_tree().set_network_peer(peer)
     if client != null:
         if client.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED or client.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTING:
             client.poll()
@@ -60,12 +66,15 @@ func _on_host_button_pressed():
     name_input_root.visible = false
     network_manager.add_self_to_players()
 
-    server = WebSocketServer.new()
-    server.listen(SERVER_PORT, PoolStringArray(), true)
-    get_tree().set_network_peer(server)
+    server = MyServer.new() 
+    server.start(SERVER_PORT, MAX_PLAYERS)
 
-    peer = NetworkedMultiplayerENet.new()
-    peer.create_server(SERVER_PORT, MAX_PLAYERS)
+    #server = WebSocketServer.new()
+    #server.listen(SERVER_PORT, PoolStringArray(), true)
+    #get_tree().set_network_peer(server)
+
+    #peer = NetworkedMultiplayerENet.new()
+    #peer.create_server(SERVER_PORT, MAX_PLAYERS)
     #get_tree().set_network_peer(peer)
     #server.connect("network_peer_connected", self, "foo")
 

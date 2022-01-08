@@ -21,12 +21,12 @@ func _ready():
     players_list = get_node(players_list_path)
     server_ui = get_node(server_ui_path)
     connecting_root = get_node(connecting_root_path)
-    
+
 # Player info, associate ID to data
 var player_info = {}
 var players_done = []
 
-# Called on both clients and server when a peer connects. Send my info to it.
+# Called on everybody, even the new player, when a new player connects
 func _player_connected(id):
     print(get_tree().network_peer)
     rpc_id(id, "register_player", get_info())
@@ -39,8 +39,6 @@ func _player_disconnected(id):
 func _connected_ok():
     print("Connected")
     connecting_root.visible = false
-    # Register ourselves
-    #register_player(get_info())
 
 # Server kicked us; show error and abort.
 func _server_disconnected():

@@ -14,14 +14,14 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://items/item_stack.gd"
 }, {
-"base": "MultiplayerAPI",
-"class": "MyMultiplayer",
+"base": "NetworkedMultiplayerPeer",
+"class": "MyServer",
 "language": "GDScript",
-"path": "res://custom_muliplayer_api.gd"
+"path": "res://crossplay_multiplayer_peer.gd"
 } ]
 _global_script_class_icons={
 "ItemStack": "",
-"MyMultiplayer": ""
+"MyServer": ""
 }
 
 [application]
