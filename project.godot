@@ -13,15 +13,9 @@ _global_script_classes=[ {
 "class": "ItemStack",
 "language": "GDScript",
 "path": "res://items/item_stack.gd"
-}, {
-"base": "MultiplayerAPI",
-"class": "MyMultiplayer",
-"language": "GDScript",
-"path": "res://custom_muliplayer_api.gd"
 } ]
 _global_script_class_icons={
-"ItemStack": "",
-"MyMultiplayer": ""
+"ItemStack": ""
 }
 
 [application]

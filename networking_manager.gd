@@ -9,8 +9,6 @@ export(PackedScene) var player_scene
 var players_list: Label
 var server_ui: Node
 var connecting_root: Control
-var server: WebSocketServer
-var peer: NetworkedMultiplayerENet
 
 func _ready():
     get_tree().connect("network_peer_connected", self, "_player_connected")
@@ -39,8 +37,6 @@ func _player_disconnected(id):
 func _connected_ok():
     print("Connected")
     connecting_root.visible = false
-    # Register ourselves
-    #register_player(get_info())
 
 # Server kicked us; show error and abort.
 func _server_disconnected():
@@ -54,8 +50,6 @@ func clear_peers_list():
     players_list.text = ""
 
 func _start_game():
-    server = server_ui.server
-    peer = server_ui.peer
     # Stop accepting new connections
     get_tree().set_refuse_new_network_connections(true)
     rpc("pre_configure_game")
