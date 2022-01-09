@@ -35,6 +35,10 @@ func return_to_server_selection():
 func set_player_name(name: String):
     my_info["name"] = name
 
+func disconnect_from_network():
+    player_info.clear()
+    get_tree().network_peer = null
+
 # Called on both clients and server when a peer connects. Send my info to it.
 func _player_connected(id):
     print(get_tree().network_peer)
@@ -42,6 +46,11 @@ func _player_connected(id):
     print("Player connected! %d" % id)
 
 func _player_disconnected(id):
+    if has_node("/root/World"):
+        var world = get_node("/root/World")
+        world.get_node(str(id)).queue_free()
+    else:
+        server_ui.remove_player_from_list(player_info[id]["name"])
     player_info.erase(id) # Erase player from info.
 
 # Only called on clients, not server. Will go unused; not useful here.
@@ -51,7 +60,12 @@ func _connected_ok():
 
 # Server kicked us; show error and abort.
 func _server_disconnected():
-    get_node("/root/World").queue_free()
+    if has_node("/root/World"):
+        var world = get_node("/root/World")
+        world.queue_free()
+    else:
+        server_ui.queue_free()
+
     var disconnect_ui = disconnected_scene.instance()
     get_node("/root").add_child(disconnect_ui)
     disconnect_ui.get_node("ReturnButton").connect("pressed", self, "return_to_server_selection")

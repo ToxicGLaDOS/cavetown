@@ -99,7 +99,7 @@ func _on_back_button_pressed():
     back_button.visible = false
     name_input_root.visible = true
     clear_peers_list()
-    get_tree().network_peer = null
+    network_manager.disconnect_from_network()
 
 func _on_singleplayer_button_pressed():
     var world = network_manager.load_world()
@@ -115,6 +115,17 @@ func clear_peers_list():
 
 func add_player_to_list(name: String):
     players_list.text += name + "\n"
+
+func remove_player_from_list(name: String):
+    var players = players_list.text.split("\n")
+    # splits returns a PoolStringArray which doesn't
+    # have the erase method :/
+    for x in range(players.size()):
+        if players[x] == name:
+            players.remove(x)
+            break
+
+    players_list.text = players.join("\n")
 
 func get_name():
     return name_input_root.get_node("NameInput").text
