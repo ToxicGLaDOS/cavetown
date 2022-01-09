@@ -66,6 +66,14 @@ remote func register_player(info):
     players_list.text += info.name + "\n"
     print("player_info", player_info)
 
+func load_world():
+    # Load world
+    var world = main_scene.instance()
+    var root = get_node("/root")
+    root.add_child(world)
+
+    return world
+
 remotesync func pre_configure_game():
     print("start pre_configure_game")
     get_tree().set_pause(true)
@@ -73,10 +81,7 @@ remotesync func pre_configure_game():
     var selfPeerID = get_tree().get_network_unique_id()
     print(selfPeerID)
 
-    # Load world
-    var world = main_scene.instance()
-    var root = get_node("/root")
-    root.add_child(world)
+    var world = load_world()
 
     # Load my player
     var my_player = world.get_node("Player")

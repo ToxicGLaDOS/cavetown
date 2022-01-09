@@ -31,9 +31,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -279.5
+margin_left = -435.5
 margin_top = -45.0
-margin_right = 279.5
+margin_right = 435.5
 margin_bottom = 45.0
 size_flags_stretch_ratio = 8.44
 __meta__ = {
@@ -41,7 +41,7 @@ __meta__ = {
 }
 
 [node name="HostWebButton" type="Button" parent="ReferenceRect/HostOrConnectHBox"]
-margin_right = 116.0
+margin_right = 154.0
 margin_bottom = 90.0
 size_flags_horizontal = 3
 text = "Host web server"
@@ -50,32 +50,49 @@ __meta__ = {
 }
 
 [node name="MarginContainer" type="MarginContainer" parent="ReferenceRect/HostOrConnectHBox"]
-margin_left = 120.0
-margin_right = 206.0
+margin_left = 158.0
+margin_right = 235.0
 margin_bottom = 90.0
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
 
 [node name="HostNativeButton" type="Button" parent="ReferenceRect/HostOrConnectHBox"]
-margin_left = 210.0
-margin_right = 339.0
+margin_left = 239.0
+margin_right = 393.0
 margin_bottom = 90.0
+size_flags_horizontal = 3
 text = "Host native server"
 
 [node name="MarginContainer2" type="MarginContainer" parent="ReferenceRect/HostOrConnectHBox"]
-margin_left = 343.0
-margin_right = 430.0
+margin_left = 397.0
+margin_right = 474.0
 margin_bottom = 90.0
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
 
 [node name="ConnectToServerButton" type="Button" parent="ReferenceRect/HostOrConnectHBox"]
-margin_left = 434.0
-margin_right = 559.0
+margin_left = 478.0
+margin_right = 632.0
 margin_bottom = 90.0
 size_flags_horizontal = 3
 text = "Connect to server"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="MarginContainer3" type="MarginContainer" parent="ReferenceRect/HostOrConnectHBox"]
+margin_left = 636.0
+margin_right = 713.0
+margin_bottom = 90.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="SingleplayerButton" type="Button" parent="ReferenceRect/HostOrConnectHBox"]
+margin_left = 717.0
+margin_right = 871.0
+margin_bottom = 90.0
+size_flags_horizontal = 3
+text = "Singleplayer"
 
 [node name="NameVBox" type="VBoxContainer" parent="ReferenceRect"]
 anchor_left = 0.5
@@ -335,6 +352,7 @@ player_scene = ExtResource( 4 )
 [connection signal="pressed" from="ReferenceRect/HostOrConnectHBox/HostWebButton" to="." method="_on_host_web_button_pressed"]
 [connection signal="pressed" from="ReferenceRect/HostOrConnectHBox/HostNativeButton" to="." method="_on_host_native_button_pressed"]
 [connection signal="pressed" from="ReferenceRect/HostOrConnectHBox/ConnectToServerButton" to="." method="_on_connect_to_server_button_pressed"]
+[connection signal="pressed" from="ReferenceRect/HostOrConnectHBox/SingleplayerButton" to="." method="_on_singleplayer_button_pressed"]
 [connection signal="pressed" from="ReferenceRect/ConnectGui/ButtonsHBox/BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="ReferenceRect/ConnectGui/ButtonsHBox/ConnectButton" to="." method="_on_connect_button_pressed"]
 [connection signal="pressed" from="ReferenceRect/HostingGui/ButtonsHBox/BackButton" to="." method="_on_back_button_pressed"]
