@@ -12,6 +12,7 @@ export(NodePath) var name_input_root_path
 export(NodePath) var network_manager_path
 export(NodePath) var connecting_root_path
 export(NodePath) var players_list_path
+export(NodePath) var disconnect_button_path
 
 var host_or_connect_root: Control
 var connect_gui_root: Control
@@ -19,12 +20,12 @@ var host_info_root: Control
 var host_button: Button
 var connect_button: Button
 var connect_to_server_button: Button
-var back_button: Button
 var ip_address_input: TextEdit
 var name_input_root: Control
 var network_manager: Node
 var connecting_root: Control
 var players_list: Label
+var disconnect_button: Button
 
 const SERVER_PORT = 42069
 const MAX_PLAYERS = 4
@@ -34,7 +35,6 @@ func _ready():
     host_or_connect_root = get_node(host_or_connect_root_path)
     host_info_root = get_node(host_info_root_path)
     connect_gui_root = get_node(connect_gui_root_path)
-    back_button = get_node(back_button_path)
     connect_to_server_button = get_node(connect_to_server_button_path)
     ip_address_input = get_node(ip_address_input_path)
     name_input_root = get_node(name_input_root_path)
@@ -42,12 +42,12 @@ func _ready():
     network_manager = get_node(network_manager_path)
     connecting_root = get_node(connecting_root_path)
     players_list = get_node(players_list_path)
+    disconnect_button = get_node(disconnect_button_path)
 
 
 func on_host_button_pressed():
     print("Pressed host")
     host_info_root.visible = true
-    back_button.visible = true
     name_input_root.visible = false
     host_or_connect_root.visible = false
     add_player_to_list(get_name())
@@ -96,7 +96,8 @@ func _on_back_button_pressed():
     connect_gui_root.visible = false
     host_info_root.visible = false
     host_or_connect_root.visible = true
-    back_button.visible = false
+    disconnect_button.visible = false
+    connecting_root.visible = false
     name_input_root.visible = true
     clear_peers_list()
     network_manager.disconnect_from_network()

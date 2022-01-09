@@ -57,6 +57,7 @@ func _player_disconnected(id):
 func _connected_ok():
     print("Connected")
     server_ui.connecting_root.visible = false
+    server_ui.disconnect_button.visible = true
 
 # Server kicked us; show error and abort.
 func _server_disconnected():
