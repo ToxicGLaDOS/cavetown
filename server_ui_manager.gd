@@ -11,6 +11,7 @@ export(NodePath) var ip_address_input_path
 export(NodePath) var name_input_root_path
 export(NodePath) var network_manager_path
 export(NodePath) var connecting_root_path
+export(NodePath) var players_list_path
 
 var host_or_connect_root: Control
 var connect_gui_root: Control
@@ -23,6 +24,7 @@ var ip_address_input: TextEdit
 var name_input_root: Control
 var network_manager: Node
 var connecting_root: Control
+var players_list: Label
 
 const SERVER_PORT = 42069
 const MAX_PLAYERS = 4
@@ -36,8 +38,11 @@ func _ready():
     connect_to_server_button = get_node(connect_to_server_button_path)
     ip_address_input = get_node(ip_address_input_path)
     name_input_root = get_node(name_input_root_path)
+    print(network_manager_path)
     network_manager = get_node(network_manager_path)
     connecting_root = get_node(connecting_root_path)
+    players_list = get_node(players_list_path)
+
 
 func on_host_button_pressed():
     print("Pressed host")
@@ -45,10 +50,11 @@ func on_host_button_pressed():
     back_button.visible = true
     name_input_root.visible = false
     host_or_connect_root.visible = false
-    network_manager.add_self_to_players()
+    add_player_to_list(get_name())
 
 func _on_host_native_button_pressed():
     on_host_button_pressed()
+    network_manager.set_player_name(get_name())
 
     var peer = NetworkedMultiplayerENet.new()
     peer.create_server(SERVER_PORT, MAX_PLAYERS)
@@ -56,6 +62,7 @@ func _on_host_native_button_pressed():
 
 func _on_host_web_button_pressed():
     on_host_button_pressed()
+    network_manager.set_player_name(get_name())
 
     var peer = WebSocketServer.new()
     peer.listen(SERVER_PORT, PoolStringArray(), true)
@@ -65,7 +72,8 @@ func _on_connect_button_pressed():
     connect_gui_root.visible = false
     name_input_root.visible = false
     connecting_root.visible = true
-    network_manager.add_self_to_players()
+    add_player_to_list(get_name())
+    network_manager.set_player_name(get_name())
     
     var ip_address = ip_address_input.text
     if OS.get_name() == "HTML5":
@@ -90,7 +98,7 @@ func _on_back_button_pressed():
     host_or_connect_root.visible = true
     back_button.visible = false
     name_input_root.visible = true
-    network_manager.clear_peers_list()
+    clear_peers_list()
     get_tree().network_peer = null
 
 func _on_singleplayer_button_pressed():
@@ -98,6 +106,15 @@ func _on_singleplayer_button_pressed():
     var player = world.get_node("Player")
     player.set_name_label(name_input_root.get_node("NameInput").text)
     queue_free()
+
+func _on_start_button_pressed():
+    network_manager.start_game()
+
+func clear_peers_list():
+    players_list.text = ""
+
+func add_player_to_list(name: String):
+    players_list.text += name + "\n"
 
 func get_name():
     return name_input_root.get_node("NameInput").text
