@@ -28,25 +28,35 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
     # Make sure that we only move ourselves
-    if is_network_master():
+    if get_tree().network_peer == null or is_network_master():
         if Input.is_key_pressed(KEY_W):
             move_and_slide(Vector2(0, -1) * speed * delta)
-            rpc("rotate_character", Direction.UP)
+            if get_tree().network_peer != null:
+                rpc("rotate_character", Direction.UP)
+            rotate_character(Direction.UP)
         if Input.is_key_pressed(KEY_A):
             move_and_slide(Vector2(-1, 0) * speed * delta)
-            rpc("rotate_character", Direction.LEFT)
+            if get_tree().network_peer != null:
+                rpc("rotate_character", Direction.LEFT)
+            rotate_character(Direction.LEFT)
         if Input.is_key_pressed(KEY_S):
             move_and_slide(Vector2(0, 1) * speed * delta)
-            rpc("rotate_character", Direction.DOWN)
+            if get_tree().network_peer != null:
+                rpc("rotate_character", Direction.DOWN)
+            rotate_character(Direction.DOWN)
         if Input.is_key_pressed(KEY_D):
             move_and_slide(Vector2(1, 0) * speed * delta)
-            rpc("rotate_character", Direction.RIGHT)
-        rset("puppet_pos", position)
+            if get_tree().network_peer != null:
+                rpc("rotate_character", Direction.RIGHT)
+            rotate_character(Direction.RIGHT)
+
+        if get_tree().network_peer != null:
+            rset("puppet_pos", position)
     else:
         position = puppet_pos
 
 
-remotesync func rotate_character(direction):
+remote func rotate_character(direction):
     if direction == Direction.UP:
         animated_sprite.animation = "up"
         hit_position.position = Vector2(0, 2 * -hit_position_distance)
@@ -82,8 +92,14 @@ remotesync func swing_sword():
     get_node(sword_path).swing()
 
 func _input(event):
-    if get_tree().network_peer != null && is_network_master():
-        if event is InputEventKey and event.pressed and event.scancode == KEY_SPACE:
+    if event is InputEventKey and event.pressed and event.scancode == KEY_SPACE:
+        if get_tree().network_peer == null:
+            break_ore()
+        elif is_network_master():
             rpc("break_ore")
-        if event is InputEventKey and event.pressed and event.scancode == KEY_E:
+
+    if event is InputEventKey and event.pressed and event.scancode == KEY_E:
+        if get_tree().network_peer == null:
+            swing_sword()
+        elif is_network_master():
             rpc("swing_sword")
