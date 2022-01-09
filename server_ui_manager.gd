@@ -94,7 +94,9 @@ func _on_back_button_pressed():
     get_tree().network_peer = null
 
 func _on_singleplayer_button_pressed():
-    network_manager.load_world()
+    var world = network_manager.load_world()
+    var player = world.get_node("Player")
+    player.set_name_label(name_input_root.get_node("NameInput").text)
     queue_free()
 
 func get_name():

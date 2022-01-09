@@ -55,6 +55,11 @@ func _process(delta):
     else:
         position = puppet_pos
 
+func set_name_label(name: String):
+    var name_label = get_node("NameLabel")
+    name_label.text = name
+    var min_size = name_label.get_minimum_size()
+    name_label.rect_position = Vector2(-min_size.x / 2, name_label.rect_position.y)
 
 remote func rotate_character(direction):
     if direction == Direction.UP:

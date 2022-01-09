@@ -86,6 +86,7 @@ remotesync func pre_configure_game():
     # Load my player
     var my_player = world.get_node("Player")
     my_player.set_name(str(selfPeerID))
+    my_player.set_name_label(get_info()['name'])
     my_player.set_network_master(selfPeerID) # Will be explained later
 
     # Load other players
@@ -94,6 +95,7 @@ remotesync func pre_configure_game():
         player.set_name(str(p))
         player.set_network_master(p) # Will be explained later
         get_node("/root/World").add_child(player)
+        player.set_name_label(player_info[p]["name"])
 
     my_player.get_node("Camera2D").current = true
     # Only clients should call the done_preconfiguring step
