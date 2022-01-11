@@ -28,7 +28,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
     # Make sure that we only move ourselves
-    if get_tree().network_peer == null or is_network_master():
+    if get_tree().network_peer == null or (get_tree().network_peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED and is_network_master()):
         if Input.is_key_pressed(KEY_W):
             move_and_slide(Vector2(0, -1) * speed * delta)
             if get_tree().network_peer != null:
@@ -50,7 +50,7 @@ func _process(delta):
                 rpc("rotate_character", Direction.RIGHT)
             rotate_character(Direction.RIGHT)
 
-        if get_tree().network_peer != null:
+        if get_tree().network_peer != null and get_tree().network_peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED:
             rset("puppet_pos", position)
     else:
         position = puppet_pos
@@ -100,11 +100,11 @@ func _input(event):
     if event is InputEventKey and event.pressed and event.scancode == KEY_SPACE:
         if get_tree().network_peer == null:
             break_ore()
-        elif is_network_master():
+        elif get_tree().network_peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED and is_network_master():
             rpc("break_ore")
 
     if event is InputEventKey and event.pressed and event.scancode == KEY_E:
         if get_tree().network_peer == null:
             swing_sword()
-        elif is_network_master():
+        elif get_tree().network_peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED and is_network_master():
             rpc("swing_sword")

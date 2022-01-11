@@ -28,6 +28,7 @@ var player_info = {}
 var players_done = []
 
 func return_to_server_selection():
+    get_tree().network_peer = null
     server_ui.clear_peers_list()
     server_ui.initial_menu()
     seed(0)
@@ -61,6 +62,7 @@ func _connected_ok():
 
 # Server kicked us; show error and abort.
 func _server_disconnected():
+    print("disconnected")
     if has_node("/root/World"):
         var world = get_node("/root/World")
         world.queue_free()

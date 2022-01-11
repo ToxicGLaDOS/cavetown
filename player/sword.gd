@@ -24,7 +24,7 @@ func _on_body_entered(body):
     if body.is_in_group("enemies"):
         if get_tree().network_peer == null:
             body.deal_damage(1)
-        elif is_network_master():
+        elif get_tree().network_peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED and is_network_master():
             body.rpc("deal_damage", 1)
 
 func swing():
