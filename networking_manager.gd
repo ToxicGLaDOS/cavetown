@@ -6,6 +6,7 @@ export(PackedScene) var main_scene
 export(PackedScene) var player_scene
 export(PackedScene) var server_selection_scene
 export(PackedScene) var disconnected_scene
+export(PackedScene) var failed_to_connect_scene
 
 var server_ui: Node
 
@@ -27,9 +28,8 @@ var player_info = {}
 var players_done = []
 
 func return_to_server_selection():
-    server_ui = server_selection_scene.instance()
-    server_ui.network_manager = self
-    add_child(server_ui)
+    server_ui.clear_peers_list()
+    server_ui.initial_menu()
     seed(0)
 
 func set_player_name(name: String):
@@ -64,17 +64,29 @@ func _server_disconnected():
     if has_node("/root/World"):
         var world = get_node("/root/World")
         world.queue_free()
-    else:
-        server_ui.queue_free()
 
+    # This happens when we get kicked after the game has loaded
+    if not is_instance_valid(server_ui):
+        server_ui = server_selection_scene.instance()
+        add_child(server_ui)
+        server_ui.network_manager = self
+        server_ui.name_input_root.visible = false
+        server_ui.host_or_connect_root.visible = false
+
+    server_ui.disconnect_button.visible = false
     var disconnect_ui = disconnected_scene.instance()
-    get_node("/root").add_child(disconnect_ui)
+    server_ui.add_child(disconnect_ui)
     disconnect_ui.get_node("ReturnButton").connect("pressed", self, "return_to_server_selection")
     disconnect_ui.get_node("ReturnButton").connect("pressed", disconnect_ui, "queue_free")
     player_info.clear()
 
 # Could not even connect to server; abort.
 func _connected_fail():
+    server_ui.connecting_root.visible = false
+    var failed_to_connect_ui = failed_to_connect_scene.instance()
+    server_ui.add_child(failed_to_connect_ui)
+    failed_to_connect_ui.get_node("ReturnButton").connect("pressed", self, "return_to_server_selection")
+    failed_to_connect_ui.get_node("ReturnButton").connect("pressed", failed_to_connect_ui, "queue_free")
     print("didn't connect")
 
 func start_game():
@@ -154,3 +166,4 @@ remotesync func post_configure_game():
         # Game starts now!
         # Destroy the server lobby ui
         server_ui.queue_free()
+

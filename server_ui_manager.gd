@@ -38,12 +38,10 @@ func _ready():
     connect_to_server_button = get_node(connect_to_server_button_path)
     ip_address_input = get_node(ip_address_input_path)
     name_input_root = get_node(name_input_root_path)
-    print(network_manager_path)
     network_manager = get_node(network_manager_path)
     connecting_root = get_node(connecting_root_path)
     players_list = get_node(players_list_path)
     disconnect_button = get_node(disconnect_button_path)
-
 
 func on_host_button_pressed():
     print("Pressed host")
@@ -51,6 +49,9 @@ func on_host_button_pressed():
     name_input_root.visible = false
     host_or_connect_root.visible = false
     add_player_to_list(get_name())
+
+func initial_menu():
+    host_or_connect_root.visible = true
 
 func _on_host_native_button_pressed():
     on_host_button_pressed()

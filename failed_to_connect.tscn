@@ -1,0 +1,35 @@
+[gd_scene format=2]
+
+[node name="VBoxContainer" type="VBoxContainer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -89.0
+margin_top = -28.5
+margin_right = 89.0
+margin_bottom = 28.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_right = 178.0
+margin_bottom = 14.0
+text = "Failed to connect to server"
+align = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+margin_top = 18.0
+margin_right = 178.0
+margin_bottom = 33.0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ReturnButton" type="Button" parent="."]
+margin_top = 37.0
+margin_right = 178.0
+margin_bottom = 57.0
+text = "Return to server selection"
