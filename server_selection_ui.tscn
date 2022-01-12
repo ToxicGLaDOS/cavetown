@@ -7,7 +7,6 @@ script = ExtResource( 1 )
 connect_gui_root_path = NodePath("ReferenceRect/ConnectGui")
 host_info_root_path = NodePath("ReferenceRect/HostingGui")
 host_or_connect_root_path = NodePath("ReferenceRect/HostOrConnectHBox")
-connect_to_server_button_path = NodePath("ReferenceRect/HostOrConnectHBox/ConnectToServerButton")
 back_button_path = NodePath("ReferenceRect/HostingGui/ButtonsHBox/BackButton")
 ip_address_input_path = NodePath("ReferenceRect/ConnectGui/InputsHBox/IpAddressVBox/IpAddressInput")
 name_input_root_path = NodePath("ReferenceRect/NameVBox")
@@ -15,6 +14,7 @@ network_manager_path = NodePath("..")
 connecting_root_path = NodePath("ReferenceRect/ConnectingVBox")
 players_list_path = NodePath("ReferenceRect/PlayersListVBox/PlayersListLabel")
 disconnect_button_path = NodePath("ReferenceRect/DisconnectButton")
+return_to_server_selection_path = NodePath("ReferenceRect/ReturnToServerSelectionVBox")
 
 [node name="ReferenceRect" type="ReferenceRect" parent="."]
 anchor_right = 1.0
@@ -378,8 +378,43 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="pressed" from="ReferenceRect/HostOrConnectHBox/HostWebButton" to="." method="_on_host_web_button_pressed"]
-[connection signal="pressed" from="ReferenceRect/HostOrConnectHBox/HostNativeButton" to="." method="_on_host_native_button_pressed"]
+[node name="ReturnToServerSelectionVBox" type="VBoxContainer" parent="ReferenceRect"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -89.0
+margin_top = -28.5
+margin_right = 89.0
+margin_bottom = 28.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="ReferenceRect/ReturnToServerSelectionVBox"]
+margin_right = 178.0
+margin_bottom = 14.0
+text = "Server disconnected us :("
+align = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="ReferenceRect/ReturnToServerSelectionVBox"]
+margin_top = 18.0
+margin_right = 178.0
+margin_bottom = 33.0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ReturnButton" type="Button" parent="ReferenceRect/ReturnToServerSelectionVBox"]
+margin_top = 37.0
+margin_right = 178.0
+margin_bottom = 57.0
+text = "Return to server selection"
+
+[connection signal="pressed" from="ReferenceRect/HostOrConnectHBox/HostWebButton" to="." method="_on_host_button_pressed" binds= [ false ]]
+[connection signal="pressed" from="ReferenceRect/HostOrConnectHBox/HostNativeButton" to="." method="_on_host_button_pressed" binds= [ true ]]
 [connection signal="pressed" from="ReferenceRect/HostOrConnectHBox/ConnectToServerButton" to="." method="_on_connect_to_server_button_pressed"]
 [connection signal="pressed" from="ReferenceRect/HostOrConnectHBox/SingleplayerButton" to="." method="_on_singleplayer_button_pressed"]
 [connection signal="pressed" from="ReferenceRect/ConnectGui/ButtonsHBox/BackButton" to="." method="_on_back_button_pressed"]
@@ -388,3 +423,4 @@ __meta__ = {
 [connection signal="pressed" from="ReferenceRect/HostingGui/ButtonsHBox/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="ReferenceRect/ConnectingVBox/DisconnectButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="ReferenceRect/DisconnectButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="ReferenceRect/ReturnToServerSelectionVBox/ReturnButton" to="." method="_on_return_to_server_selection_button_pressed"]

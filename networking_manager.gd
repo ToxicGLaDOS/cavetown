@@ -1,14 +1,12 @@
 extends Node
 
 export(NodePath) var server_ui_path
-export(NodePath) var connecting_root_path
 export(PackedScene) var main_scene
 export(PackedScene) var player_scene
 export(PackedScene) var server_selection_scene
-export(PackedScene) var disconnected_scene
-export(PackedScene) var failed_to_connect_scene
 
 var server_ui: Node
+const MAX_PLAYERS = 4
 
 func _ready():
     get_tree().connect("network_peer_connected", self, "_player_connected")
@@ -27,18 +25,34 @@ var my_info = {}
 var player_info = {}
 var players_done = []
 
-func return_to_server_selection():
-    get_tree().network_peer = null
-    server_ui.clear_peers_list()
-    server_ui.initial_menu()
-    seed(0)
-
 func set_player_name(name: String):
     my_info["name"] = name
 
 func disconnect_from_network():
     player_info.clear()
     get_tree().network_peer = null
+
+func host_server(port: int, isNativeServer: bool):
+    var peer: NetworkedMultiplayerPeer
+    if isNativeServer:
+        peer = NetworkedMultiplayerENet.new()
+        peer.create_server(port, MAX_PLAYERS)
+    else:
+        peer = WebSocketServer.new()
+        peer.listen(port, PoolStringArray(), true)
+    get_tree().set_network_peer(peer)
+
+func connect_to_server(ip_address: String, port: int):
+    var peer: NetworkedMultiplayerPeer
+    if OS.get_name() == "HTML5":
+        var url = "ws://" + ip_address + ":" + port as String
+        peer = WebSocketClient.new()
+        peer.connect_to_url(url, PoolStringArray(), true)
+    else:
+        peer = NetworkedMultiplayerENet.new()
+        peer.create_client(ip_address, port)
+
+    get_tree().network_peer = peer
 
 # Called on both clients and server when a peer connects. Send my info to it.
 func _player_connected(id):
@@ -57,8 +71,9 @@ func _player_disconnected(id):
 # Only called on clients, not server. Will go unused; not useful here.
 func _connected_ok():
     print("Connected")
-    server_ui.connecting_root.visible = false
-    server_ui.disconnect_button.visible = true
+    server_ui.show_no_scenes()
+    server_ui.show_disconnect_button()
+    seed(0)
 
 # Server kicked us; show error and abort.
 func _server_disconnected():
@@ -72,26 +87,18 @@ func _server_disconnected():
         server_ui = server_selection_scene.instance()
         add_child(server_ui)
         server_ui.network_manager = self
-        server_ui.name_input_root.visible = false
-        server_ui.host_or_connect_root.visible = false
 
-    server_ui.disconnect_button.visible = false
-    var disconnect_ui = disconnected_scene.instance()
-    server_ui.add_child(disconnect_ui)
-    disconnect_ui.get_node("ReturnButton").connect("pressed", self, "return_to_server_selection")
-    disconnect_ui.get_node("ReturnButton").connect("pressed", disconnect_ui, "queue_free")
+    server_ui.show_no_scenes()
+    server_ui.show_return_to_server_selection_scene("Server disconnected us :(")
     player_info.clear()
 
 # Could not even connect to server; abort.
 func _connected_fail():
-    server_ui.connecting_root.visible = false
-    var failed_to_connect_ui = failed_to_connect_scene.instance()
-    server_ui.add_child(failed_to_connect_ui)
-    failed_to_connect_ui.get_node("ReturnButton").connect("pressed", self, "return_to_server_selection")
-    failed_to_connect_ui.get_node("ReturnButton").connect("pressed", failed_to_connect_ui, "queue_free")
     print("didn't connect")
+    server_ui.show_no_scenes()
+    server_ui.show_return_to_server_selection_scene("Couldn't connect to server")
 
-func start_game():
+func start_multiplayer_game():
     # Only the host should be able to start the game
     if get_tree().get_network_unique_id() == 1:
         # Stop accepting new connections
