@@ -1,0 +1,169 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://hosting_gui.gd" type="Script" id=1]
+
+[node name="HostingGui" type="Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -184.5
+margin_right = 184.5
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+host_native_button_path = NodePath("HostingOptions/ButtonsHBox/NativeButton")
+host_web_button_path = NodePath("HostingOptions/ButtonsHBox/WebButton")
+port_input_path = NodePath("HostingOptions/PortInput")
+close_button_path = NodePath("HostingOptions/ButtonsHBox/BackButton")
+back_button_path = NodePath("Lobby/ButtonsHBox/BackButton")
+start_button_path = NodePath("Lobby/ButtonsHBox/StartButton")
+lobby_path = NodePath("Lobby")
+hosting_options_path = NodePath("HostingOptions")
+
+[node name="Lobby" type="VBoxContainer" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -184.5
+margin_top = -60.0
+margin_right = 184.5
+margin_bottom = 60.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WaitingLabel" type="Label" parent="Lobby"]
+margin_right = 369.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Waiting for others..."
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="Lobby"]
+margin_top = 18.0
+margin_right = 369.0
+margin_bottom = 46.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.4
+
+[node name="ButtonsHBox" type="HBoxContainer" parent="Lobby"]
+margin_top = 50.0
+margin_right = 369.0
+margin_bottom = 120.0
+size_flags_vertical = 3
+
+[node name="BackButton" type="Button" parent="Lobby/ButtonsHBox"]
+margin_right = 120.0
+margin_bottom = 70.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="Lobby/ButtonsHBox"]
+margin_left = 124.0
+margin_right = 244.0
+margin_bottom = 70.0
+size_flags_horizontal = 3
+
+[node name="StartButton" type="Button" parent="Lobby/ButtonsHBox"]
+margin_left = 248.0
+margin_right = 369.0
+margin_bottom = 70.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Start"
+
+[node name="HostingOptions" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -79.5
+margin_top = -67.0
+margin_right = 141.5
+margin_bottom = 67.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HostingOptions"]
+margin_top = 7.0
+margin_right = 221.0
+margin_bottom = 21.0
+size_flags_vertical = 6
+text = "Port"
+align = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="HostingOptions"]
+margin_top = 33.0
+margin_right = 221.0
+margin_bottom = 48.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="PortInput" type="TextEdit" parent="HostingOptions"]
+margin_top = 52.0
+margin_right = 221.0
+margin_bottom = 81.0
+size_flags_vertical = 3
+text = "42069"
+
+[node name="MarginContainer2" type="MarginContainer" parent="HostingOptions"]
+margin_top = 85.0
+margin_right = 221.0
+margin_bottom = 100.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="ButtonsHBox" type="HBoxContainer" parent="HostingOptions"]
+margin_top = 104.0
+margin_right = 221.0
+margin_bottom = 134.0
+size_flags_vertical = 3
+
+[node name="BackButton" type="Button" parent="HostingOptions/ButtonsHBox"]
+margin_right = 42.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+text = "Back"
+
+[node name="MarginContainer2" type="MarginContainer" parent="HostingOptions/ButtonsHBox"]
+margin_left = 46.0
+margin_right = 50.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+
+[node name="NativeButton" type="Button" parent="HostingOptions/ButtonsHBox"]
+margin_left = 54.0
+margin_right = 139.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+text = "Host native"
+
+[node name="MarginContainer" type="MarginContainer" parent="HostingOptions/ButtonsHBox"]
+margin_left = 143.0
+margin_right = 145.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="WebButton" type="Button" parent="HostingOptions/ButtonsHBox"]
+margin_left = 149.0
+margin_right = 221.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+text = "Host web"
+
+[connection signal="pressed" from="Lobby/ButtonsHBox/BackButton" to="." method="show_hosting_options"]
+[connection signal="pressed" from="HostingOptions/ButtonsHBox/NativeButton" to="." method="show_hosting"]
+[connection signal="pressed" from="HostingOptions/ButtonsHBox/WebButton" to="." method="show_hosting"]

@@ -1,0 +1,238 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://connect_options.gd" type="Script" id=1]
+
+[node name="ConnectGui" type="Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -20.0
+margin_right = 20.0
+margin_bottom = 20.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+ip_input_path = NodePath("ConnectionOptionsVBox/InputsHBox/IpAddressVBox/IpAddressInput")
+port_input_path = NodePath("ConnectionOptionsVBox/InputsHBox/IpAddressVBox2/PortInput")
+back_button_path = NodePath("ConnectionOptionsVBox/ButtonsHBox/BackButton")
+connect_button_path = NodePath("ConnectionOptionsVBox/ButtonsHBox/ConnectButton")
+disconnect_button_path = NodePath("DisconnectButton")
+cancel_button_path = NodePath("ConnectingVBox/DisconnectButton")
+connection_options_path = NodePath("ConnectionOptionsVBox")
+connecting_scene_path = NodePath("ConnectingVBox")
+return_to_server_selection_path = NodePath("ReturnToServerSelectionVBox")
+
+[node name="ConnectingVBox" type="VBoxContainer" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -60.5
+margin_top = -41.5
+margin_right = 60.5
+margin_bottom = 41.5
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": "TODO: Add a way to stop connecting"
+}
+
+[node name="ConnectingLabel" type="Label" parent="ConnectingVBox"]
+margin_right = 121.0
+margin_bottom = 14.0
+text = "Connecting..."
+align = 1
+valign = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="ConnectingVBox"]
+margin_top = 18.0
+margin_right = 121.0
+margin_bottom = 38.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DisconnectButton" type="Button" parent="ConnectingVBox"]
+margin_top = 42.0
+margin_right = 121.0
+margin_bottom = 83.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Disconnect"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ConnectionOptionsVBox" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -254.0
+margin_top = -49.0
+margin_right = 254.0
+margin_bottom = 49.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InputsHBox" type="HBoxContainer" parent="ConnectionOptionsVBox"]
+margin_right = 508.0
+margin_bottom = 48.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IpAddressVBox2" type="VBoxContainer" parent="ConnectionOptionsVBox/InputsHBox"]
+margin_right = 250.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="ConnectionOptionsVBox/InputsHBox/IpAddressVBox2"]
+margin_right = 250.0
+margin_bottom = 14.0
+text = "Port"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PortInput" type="TextEdit" parent="ConnectionOptionsVBox/InputsHBox/IpAddressVBox2"]
+margin_top = 18.0
+margin_right = 250.0
+margin_bottom = 48.0
+rect_min_size = Vector2( 250, 30 )
+text = "42069"
+
+[node name="MarginContainer" type="MarginContainer" parent="ConnectionOptionsVBox/InputsHBox"]
+margin_left = 254.0
+margin_right = 254.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+
+[node name="IpAddressVBox" type="VBoxContainer" parent="ConnectionOptionsVBox/InputsHBox"]
+margin_left = 258.0
+margin_right = 508.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="ConnectionOptionsVBox/InputsHBox/IpAddressVBox"]
+margin_right = 250.0
+margin_bottom = 14.0
+text = "Ip Address"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IpAddressInput" type="TextEdit" parent="ConnectionOptionsVBox/InputsHBox/IpAddressVBox"]
+margin_top = 18.0
+margin_right = 250.0
+margin_bottom = 48.0
+rect_min_size = Vector2( 250, 30 )
+text = "127.0.0.1"
+
+[node name="MarginContainer" type="MarginContainer" parent="ConnectionOptionsVBox"]
+margin_top = 52.0
+margin_right = 508.0
+margin_bottom = 66.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="ButtonsHBox" type="HBoxContainer" parent="ConnectionOptionsVBox"]
+margin_top = 70.0
+margin_right = 508.0
+margin_bottom = 98.0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BackButton" type="Button" parent="ConnectionOptionsVBox/ButtonsHBox"]
+margin_right = 200.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="ConnectionOptionsVBox/ButtonsHBox"]
+margin_left = 204.0
+margin_right = 304.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="ConnectButton" type="Button" parent="ConnectionOptionsVBox/ButtonsHBox"]
+margin_left = 308.0
+margin_right = 508.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+text = "Connect"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ReturnToServerSelectionVBox" type="VBoxContainer" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -89.0
+margin_top = -28.5
+margin_right = 89.0
+margin_bottom = 28.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="ReturnToServerSelectionVBox"]
+margin_right = 178.0
+margin_bottom = 14.0
+text = "Server disconnected us :("
+align = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="ReturnToServerSelectionVBox"]
+margin_top = 18.0
+margin_right = 178.0
+margin_bottom = 33.0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ReturnButton" type="Button" parent="ReturnToServerSelectionVBox"]
+margin_top = 37.0
+margin_right = 178.0
+margin_bottom = 57.0
+text = "Return to server selection"
+
+[node name="DisconnectButton" type="Button" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -60.5
+margin_top = -20.5
+margin_right = 60.5
+margin_bottom = 20.5
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Disconnect"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="ConnectingVBox/DisconnectButton" to="." method="show_connection_options_scene"]
+[connection signal="pressed" from="ConnectionOptionsVBox/ButtonsHBox/ConnectButton" to="." method="show_connecting_scene"]
+[connection signal="pressed" from="ReturnToServerSelectionVBox/ReturnButton" to="." method="emit_signal" binds= [ "disconnect_from_server" ]]
+[connection signal="pressed" from="ReturnToServerSelectionVBox/ReturnButton" to="." method="show_connection_options_scene"]
+[connection signal="pressed" from="DisconnectButton" to="." method="show_connection_options_scene"]

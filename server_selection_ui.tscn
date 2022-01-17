@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://server_ui_manager.gd" type="Script" id=1]
+[ext_resource path="res://connect_options.tscn" type="PackedScene" id=2]
+[ext_resource path="res://hosting_gui.tscn" type="PackedScene" id=3]
 
 [node name="Canvas" type="CanvasLayer"]
 script = ExtResource( 1 )
@@ -8,13 +10,9 @@ connect_gui_root_path = NodePath("ReferenceRect/ConnectGui")
 host_info_root_path = NodePath("ReferenceRect/HostingGui")
 host_or_connect_root_path = NodePath("ReferenceRect/HostOrConnectHBox")
 back_button_path = NodePath("ReferenceRect/HostingGui/ButtonsHBox/BackButton")
-ip_address_input_path = NodePath("ReferenceRect/ConnectGui/InputsHBox/IpAddressVBox/IpAddressInput")
 name_input_root_path = NodePath("ReferenceRect/NameVBox")
 network_manager_path = NodePath("..")
-connecting_root_path = NodePath("ReferenceRect/ConnectingVBox")
 players_list_path = NodePath("ReferenceRect/PlayersListVBox/PlayersListLabel")
-disconnect_button_path = NodePath("ReferenceRect/DisconnectButton")
-return_to_server_selection_path = NodePath("ReferenceRect/ReturnToServerSelectionVBox")
 
 [node name="ReferenceRect" type="ReferenceRect" parent="."]
 anchor_right = 1.0
@@ -30,48 +28,31 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -435.5
+margin_left = -399.0
 margin_top = -45.0
-margin_right = 435.5
+margin_right = 399.0
 margin_bottom = 45.0
 size_flags_stretch_ratio = 8.44
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HostWebButton" type="Button" parent="ReferenceRect/HostOrConnectHBox"]
-margin_right = 154.0
-margin_bottom = 90.0
-size_flags_horizontal = 3
-text = "Host web server"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="MarginContainer" type="MarginContainer" parent="ReferenceRect/HostOrConnectHBox"]
-margin_left = 158.0
-margin_right = 235.0
-margin_bottom = 90.0
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.5
-
 [node name="HostNativeButton" type="Button" parent="ReferenceRect/HostOrConnectHBox"]
-margin_left = 239.0
-margin_right = 393.0
+margin_right = 195.0
 margin_bottom = 90.0
 size_flags_horizontal = 3
-text = "Host native server"
+text = "Host server"
 
 [node name="MarginContainer2" type="MarginContainer" parent="ReferenceRect/HostOrConnectHBox"]
-margin_left = 397.0
-margin_right = 474.0
+margin_left = 199.0
+margin_right = 297.0
 margin_bottom = 90.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 
 [node name="ConnectToServerButton" type="Button" parent="ReferenceRect/HostOrConnectHBox"]
-margin_left = 478.0
-margin_right = 632.0
+margin_left = 301.0
+margin_right = 496.0
 margin_bottom = 90.0
 size_flags_horizontal = 3
 text = "Connect to server"
@@ -80,15 +61,15 @@ __meta__ = {
 }
 
 [node name="MarginContainer3" type="MarginContainer" parent="ReferenceRect/HostOrConnectHBox"]
-margin_left = 636.0
-margin_right = 713.0
+margin_left = 500.0
+margin_right = 598.0
 margin_bottom = 90.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 
 [node name="SingleplayerButton" type="Button" parent="ReferenceRect/HostOrConnectHBox"]
-margin_left = 717.0
-margin_right = 871.0
+margin_left = 602.0
+margin_right = 798.0
 margin_bottom = 90.0
 size_flags_horizontal = 3
 text = "Singleplayer"
@@ -122,180 +103,11 @@ margin_bottom = 48.0
 rect_min_size = Vector2( 250, 30 )
 text = "Cool_guy_69"
 
-[node name="ConnectGui" type="Control" parent="ReferenceRect"]
+[node name="ConnectGui" parent="ReferenceRect" instance=ExtResource( 2 )]
 visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -20.0
-margin_top = -20.0
-margin_right = 20.0
-margin_bottom = 20.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="ButtonsHBox" type="HBoxContainer" parent="ReferenceRect/ConnectGui"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -118.0
-margin_top = 87.0
-margin_right = 118.0
-margin_bottom = 131.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="BackButton" type="Button" parent="ReferenceRect/ConnectGui/ButtonsHBox"]
-margin_right = 76.0
-margin_bottom = 44.0
-size_flags_horizontal = 3
-text = "Back"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="MarginContainer" type="MarginContainer" parent="ReferenceRect/ConnectGui/ButtonsHBox"]
-margin_left = 80.0
-margin_right = 156.0
-margin_bottom = 44.0
-size_flags_horizontal = 3
-
-[node name="ConnectButton" type="Button" parent="ReferenceRect/ConnectGui/ButtonsHBox"]
-margin_left = 160.0
-margin_right = 236.0
-margin_bottom = 44.0
-size_flags_horizontal = 3
-text = "Connect"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="InputsHBox" type="HBoxContainer" parent="ReferenceRect/ConnectGui"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -325.0
-margin_top = -88.0
-margin_right = 325.0
-margin_bottom = -45.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="IpAddressVBox2" type="VBoxContainer" parent="ReferenceRect/ConnectGui/InputsHBox"]
-margin_right = 250.0
-margin_bottom = 48.0
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="ReferenceRect/ConnectGui/InputsHBox/IpAddressVBox2"]
-margin_right = 250.0
-margin_bottom = 14.0
-text = "Port"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PortInput" type="TextEdit" parent="ReferenceRect/ConnectGui/InputsHBox/IpAddressVBox2"]
-margin_top = 18.0
-margin_right = 250.0
-margin_bottom = 48.0
-rect_min_size = Vector2( 250, 30 )
-text = "42069"
-
-[node name="MarginContainer" type="MarginContainer" parent="ReferenceRect/ConnectGui/InputsHBox"]
-margin_left = 254.0
-margin_right = 396.0
-margin_bottom = 48.0
-size_flags_horizontal = 3
-
-[node name="IpAddressVBox" type="VBoxContainer" parent="ReferenceRect/ConnectGui/InputsHBox"]
-margin_left = 400.0
-margin_right = 650.0
-margin_bottom = 48.0
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="ReferenceRect/ConnectGui/InputsHBox/IpAddressVBox"]
-margin_right = 250.0
-margin_bottom = 14.0
-text = "Ip Address"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="IpAddressInput" type="TextEdit" parent="ReferenceRect/ConnectGui/InputsHBox/IpAddressVBox"]
-margin_top = 18.0
-margin_right = 250.0
-margin_bottom = 48.0
-rect_min_size = Vector2( 250, 30 )
-text = "127.0.0.1"
-
-[node name="HostingGui" type="VBoxContainer" parent="ReferenceRect"]
+[node name="HostingGui" parent="ReferenceRect" instance=ExtResource( 3 )]
 visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -184.5
-margin_top = -60.0
-margin_right = 184.5
-margin_bottom = 60.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="WaitingLabel" type="Label" parent="ReferenceRect/HostingGui"]
-margin_right = 369.0
-margin_bottom = 14.0
-size_flags_horizontal = 3
-text = "Waiting for others..."
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="MarginContainer" type="MarginContainer" parent="ReferenceRect/HostingGui"]
-margin_top = 18.0
-margin_right = 369.0
-margin_bottom = 46.0
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.4
-
-[node name="ButtonsHBox" type="HBoxContainer" parent="ReferenceRect/HostingGui"]
-margin_top = 50.0
-margin_right = 369.0
-margin_bottom = 120.0
-size_flags_vertical = 3
-
-[node name="BackButton" type="Button" parent="ReferenceRect/HostingGui/ButtonsHBox"]
-margin_right = 120.0
-margin_bottom = 70.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "Back"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="MarginContainer" type="MarginContainer" parent="ReferenceRect/HostingGui/ButtonsHBox"]
-margin_left = 124.0
-margin_right = 244.0
-margin_bottom = 70.0
-size_flags_horizontal = 3
-
-[node name="StartButton" type="Button" parent="ReferenceRect/HostingGui/ButtonsHBox"]
-margin_left = 248.0
-margin_right = 369.0
-margin_bottom = 70.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "Start"
 
 [node name="PlayersListVBox" type="VBoxContainer" parent="ReferenceRect"]
 anchor_left = 0.5
@@ -318,109 +130,14 @@ margin_top = 18.0
 margin_right = 230.0
 margin_bottom = 32.0
 
-[node name="ConnectingVBox" type="VBoxContainer" parent="ReferenceRect"]
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -60.5
-margin_top = -41.5
-margin_right = 60.5
-margin_bottom = 41.5
-__meta__ = {
-"_edit_use_anchors_": false,
-"_editor_description_": "TODO: Add a way to stop connecting"
-}
-
-[node name="ConnectingLabel" type="Label" parent="ReferenceRect/ConnectingVBox"]
-margin_right = 121.0
-margin_bottom = 14.0
-text = "Connecting..."
-align = 1
-valign = 1
-
-[node name="MarginContainer" type="MarginContainer" parent="ReferenceRect/ConnectingVBox"]
-margin_top = 18.0
-margin_right = 121.0
-margin_bottom = 38.0
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.5
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="DisconnectButton" type="Button" parent="ReferenceRect/ConnectingVBox"]
-margin_top = 42.0
-margin_right = 121.0
-margin_bottom = 83.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "Disconnect"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="DisconnectButton" type="Button" parent="ReferenceRect"]
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -60.5
-margin_top = -20.5
-margin_right = 60.5
-margin_bottom = 20.5
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "Disconnect"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ReturnToServerSelectionVBox" type="VBoxContainer" parent="ReferenceRect"]
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -89.0
-margin_top = -28.5
-margin_right = 89.0
-margin_bottom = 28.5
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="ReferenceRect/ReturnToServerSelectionVBox"]
-margin_right = 178.0
-margin_bottom = 14.0
-text = "Server disconnected us :("
-align = 1
-
-[node name="MarginContainer" type="MarginContainer" parent="ReferenceRect/ReturnToServerSelectionVBox"]
-margin_top = 18.0
-margin_right = 178.0
-margin_bottom = 33.0
-size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ReturnButton" type="Button" parent="ReferenceRect/ReturnToServerSelectionVBox"]
-margin_top = 37.0
-margin_right = 178.0
-margin_bottom = 57.0
-text = "Return to server selection"
-
-[connection signal="pressed" from="ReferenceRect/HostOrConnectHBox/HostWebButton" to="." method="_on_host_button_pressed" binds= [ false ]]
-[connection signal="pressed" from="ReferenceRect/HostOrConnectHBox/HostNativeButton" to="." method="_on_host_button_pressed" binds= [ true ]]
+[connection signal="pressed" from="ReferenceRect/HostOrConnectHBox/HostNativeButton" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="ReferenceRect/HostOrConnectHBox/ConnectToServerButton" to="." method="_on_connect_to_server_button_pressed"]
 [connection signal="pressed" from="ReferenceRect/HostOrConnectHBox/SingleplayerButton" to="." method="_on_singleplayer_button_pressed"]
-[connection signal="pressed" from="ReferenceRect/ConnectGui/ButtonsHBox/BackButton" to="." method="_on_back_button_pressed"]
-[connection signal="pressed" from="ReferenceRect/ConnectGui/ButtonsHBox/ConnectButton" to="." method="_on_connect_button_pressed"]
-[connection signal="pressed" from="ReferenceRect/HostingGui/ButtonsHBox/BackButton" to="." method="_on_back_button_pressed"]
-[connection signal="pressed" from="ReferenceRect/HostingGui/ButtonsHBox/StartButton" to="." method="_on_start_button_pressed"]
-[connection signal="pressed" from="ReferenceRect/ConnectingVBox/DisconnectButton" to="." method="_on_back_button_pressed"]
-[connection signal="pressed" from="ReferenceRect/DisconnectButton" to="." method="_on_back_button_pressed"]
-[connection signal="pressed" from="ReferenceRect/ReturnToServerSelectionVBox/ReturnButton" to="." method="_on_return_to_server_selection_button_pressed"]
+[connection signal="close_scene" from="ReferenceRect/ConnectGui" to="." method="return_to_main_scene"]
+[connection signal="connect_to_server" from="ReferenceRect/ConnectGui" to="." method="connect_to_server"]
+[connection signal="disconnect_from_server" from="ReferenceRect/ConnectGui" to="." method="disconnect_from_network"]
+[connection signal="close_scene" from="ReferenceRect/HostingGui" to="." method="return_to_main_scene"]
+[connection signal="host_native_server" from="ReferenceRect/HostingGui" to="." method="_host_server" binds= [ true ]]
+[connection signal="host_web_server" from="ReferenceRect/HostingGui" to="." method="_host_server" binds= [ false ]]
+[connection signal="start_game" from="ReferenceRect/HostingGui" to="." method="start_game"]
+[connection signal="stop_hosting" from="ReferenceRect/HostingGui" to="." method="disconnect_from_network"]

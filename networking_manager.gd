@@ -68,11 +68,10 @@ func _player_disconnected(id):
         server_ui.remove_player_from_list(player_info[id]["name"])
     player_info.erase(id) # Erase player from info.
 
-# Only called on clients, not server. Will go unused; not useful here.
+# Only called on clients, not server
 func _connected_ok():
     print("Connected")
-    server_ui.show_no_scenes()
-    server_ui.show_disconnect_button()
+    server_ui.add_player_to_list(server_ui.get_name())
     seed(0)
 
 # Server kicked us; show error and abort.
@@ -94,9 +93,7 @@ func _server_disconnected():
 
 # Could not even connect to server; abort.
 func _connected_fail():
-    print("didn't connect")
-    server_ui.show_no_scenes()
-    server_ui.show_return_to_server_selection_scene("Couldn't connect to server")
+    pass
 
 func start_multiplayer_game():
     # Only the host should be able to start the game
