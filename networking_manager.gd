@@ -149,6 +149,11 @@ remotesync func pre_configure_game():
         rpc_id(1, "done_preconfiguring")
         print("done postpreconfig")
 
+    # If we started the game with no one else in the lobby
+    # then start the game
+    if get_tree().is_network_server() and player_info.size() == 0:
+        post_configure_game()
+
 
 remote func done_preconfiguring():
     var who = get_tree().get_rpc_sender_id()
