@@ -9,7 +9,6 @@ export(NodePath) var back_button_path
 export(NodePath) var name_input_root_path
 export(NodePath) var network_manager_path
 export(NodePath) var players_list_path
-export(NodePath) var return_to_server_selection_path
 
 var host_or_connect_root: Control
 var connect_gui_root: Control
@@ -52,15 +51,12 @@ func show_return_to_server_selection_scene(text: String):
     connect_gui_root.show_return_to_server_selection_scene(text)
     clear_peers_list()
 
-# Properly, isNativeServer should probably be an enum,
-# but there _is_ only two options, and passing enum
-# values to a signal doesn't seem to be possible
-func _host_server(isNativeServer: bool):
+func _host_server():
     show_no_scenes()
     show_hosting_options_scene()
     add_player_to_list(get_name())
     network_manager.set_player_name(get_name())
-    network_manager.host_server(host_info_root.get_port(), isNativeServer)
+    network_manager.host_server(host_info_root.get_port())
 
 func _on_host_button_pressed():
     show_no_scenes()

@@ -137,7 +137,6 @@ margin_bottom = 32.0
 [connection signal="connect_to_server" from="ReferenceRect/ConnectGui" to="." method="connect_to_server"]
 [connection signal="disconnect_from_server" from="ReferenceRect/ConnectGui" to="." method="disconnect_from_network"]
 [connection signal="close_scene" from="ReferenceRect/HostingGui" to="." method="return_to_main_scene"]
-[connection signal="host_native_server" from="ReferenceRect/HostingGui" to="." method="_host_server" binds= [ true ]]
-[connection signal="host_web_server" from="ReferenceRect/HostingGui" to="." method="_host_server" binds= [ false ]]
+[connection signal="host_server" from="ReferenceRect/HostingGui" to="." method="_host_server"]
 [connection signal="start_game" from="ReferenceRect/HostingGui" to="." method="start_game"]
 [connection signal="stop_hosting" from="ReferenceRect/HostingGui" to="." method="disconnect_from_network"]

@@ -32,27 +32,25 @@ func disconnect_from_network():
     player_info.clear()
     get_tree().network_peer = null
 
-func host_server(port: int, isNativeServer: bool):
-    var peer: NetworkedMultiplayerPeer
-    if isNativeServer:
-        peer = NetworkedMultiplayerENet.new()
-        peer.create_server(port, MAX_PLAYERS)
-    else:
-        peer = WebSocketServer.new()
-        peer.listen(port, PoolStringArray(), true)
+func host_server(port: int):
+    var peer = WebSocketServer.new()
+    peer.listen(port, PoolStringArray(), true)
     get_tree().set_network_peer(peer)
 
 func connect_to_server(ip_address: String, port: int):
-    var peer: NetworkedMultiplayerPeer
-    if OS.get_name() == "HTML5":
-        var url = "ws://" + ip_address + ":" + port as String
-        peer = WebSocketClient.new()
-        peer.connect_to_url(url, PoolStringArray(), true)
-    else:
-        peer = NetworkedMultiplayerENet.new()
-        peer.create_client(ip_address, port)
+    # We only use websockets so that native clients
+    # and web clients can play together
+    var url = "ws://" + ip_address + ":" + port as String
+    var peer = WebSocketClient.new()
+    peer.connect_to_url(url, PoolStringArray(), true)
+    peer.connect("server_close_request", self, "_server_close_request")
 
     get_tree().network_peer = peer
+
+# Called when a WebSocketClient is requested to disconnect
+# We just forward it to the normal _server_disconnected logic
+func _server_close_request(code: int, reason: String):
+    _server_disconnected()
 
 # Called on both clients and server when a peer connects. Send my info to it.
 func _player_connected(id):
