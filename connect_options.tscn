@@ -24,6 +24,7 @@ cancel_button_path = NodePath("ConnectingVBox/DisconnectButton")
 connection_options_path = NodePath("ConnectionOptionsVBox")
 connecting_scene_path = NodePath("ConnectingVBox")
 return_to_server_selection_path = NodePath("ReturnToServerSelectionVBox")
+reconnect_button_path = NodePath("ReturnToServerSelectionVBox/HBoxContainer/ReconnectButton")
 
 [node name="ConnectingVBox" type="VBoxContainer" parent="."]
 visible = false
@@ -185,34 +186,53 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -89.0
+margin_left = -140.5
 margin_top = -28.5
-margin_right = 89.0
+margin_right = 140.5
 margin_bottom = 28.5
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="ReturnToServerSelectionVBox"]
-margin_right = 178.0
+margin_right = 281.0
 margin_bottom = 14.0
 text = "Server disconnected us :("
 align = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="ReturnToServerSelectionVBox"]
 margin_top = 18.0
-margin_right = 178.0
+margin_right = 281.0
 margin_bottom = 33.0
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ReturnButton" type="Button" parent="ReturnToServerSelectionVBox"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ReturnToServerSelectionVBox"]
 margin_top = 37.0
-margin_right = 178.0
+margin_right = 281.0
 margin_bottom = 57.0
+
+[node name="ReturnButton" type="Button" parent="ReturnToServerSelectionVBox/HBoxContainer"]
+margin_right = 178.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
 text = "Return to server selection"
+
+[node name="MarginContainer" type="MarginContainer" parent="ReturnToServerSelectionVBox/HBoxContainer"]
+margin_left = 182.0
+margin_right = 197.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="ReconnectButton" type="Button" parent="ReturnToServerSelectionVBox/HBoxContainer"]
+margin_left = 201.0
+margin_right = 281.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Reconnect"
 
 [node name="DisconnectButton" type="Button" parent="."]
 visible = false
@@ -233,6 +253,7 @@ __meta__ = {
 
 [connection signal="pressed" from="ConnectingVBox/DisconnectButton" to="." method="show_connection_options_scene"]
 [connection signal="pressed" from="ConnectionOptionsVBox/ButtonsHBox/ConnectButton" to="." method="show_connecting_scene"]
-[connection signal="pressed" from="ReturnToServerSelectionVBox/ReturnButton" to="." method="emit_signal" binds= [ "disconnect_from_server" ]]
-[connection signal="pressed" from="ReturnToServerSelectionVBox/ReturnButton" to="." method="show_connection_options_scene"]
+[connection signal="pressed" from="ReturnToServerSelectionVBox/HBoxContainer/ReturnButton" to="." method="emit_signal" binds= [ "disconnect_from_server" ]]
+[connection signal="pressed" from="ReturnToServerSelectionVBox/HBoxContainer/ReturnButton" to="." method="show_connection_options_scene"]
+[connection signal="pressed" from="ReturnToServerSelectionVBox/HBoxContainer/ReconnectButton" to="." method="show_connecting_scene"]
 [connection signal="pressed" from="DisconnectButton" to="." method="show_connection_options_scene"]

@@ -13,6 +13,7 @@ export(NodePath) var cancel_button_path
 export(NodePath) var connection_options_path
 export(NodePath) var connecting_scene_path
 export(NodePath) var return_to_server_selection_path
+export(NodePath) var reconnect_button_path
 
 var ip_input: TextEdit
 var port_input: TextEdit
@@ -23,6 +24,7 @@ var cancel_button: Button
 var connecting_scene: Control
 var connection_options: Control
 var return_to_server_selection: Control
+var reconnect_button: Button
 
 func _ready():
     ip_input = get_node(ip_input_path)
@@ -34,6 +36,7 @@ func _ready():
     connecting_scene = get_node(connecting_scene_path)
     connection_options = get_node(connection_options_path)
     return_to_server_selection = get_node(return_to_server_selection_path)
+    reconnect_button = get_node(reconnect_button_path)
 
     get_tree().connect("connection_failed", self, "_connection_fail")
     get_tree().connect("connected_to_server", self, "_connected_to_server")
@@ -41,6 +44,7 @@ func _ready():
     # Used to pass the button press singals through to the server_ui_manager
     back_button.connect("pressed", self, "emit_signal", ["close_scene"])
     connect_button.connect("pressed", self, "emit_signal", ["connect_to_server"])
+    reconnect_button.connect("pressed", self, "emit_signal", ["connect_to_server"])
     disconnect_button.connect("pressed", self, "emit_signal", ["disconnect_from_server"])
     cancel_button.connect("pressed", self, "emit_signal", ["disconnect_from_server"])
 
