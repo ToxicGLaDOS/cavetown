@@ -21,7 +21,11 @@ _global_script_class_icons={
 [application]
 
 config/name="cavetown"
-run/main_scene="res://server_selection.tscn"
+run/main_scene="res://server_selection_ui.tscn"
+
+[autoload]
+
+NetworkManager="*res://networking_manager.gd"
 
 [global]
 

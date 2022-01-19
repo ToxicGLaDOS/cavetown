@@ -7,7 +7,6 @@ export(NodePath) var host_info_root_path
 export(NodePath) var host_or_connect_root_path
 export(NodePath) var back_button_path
 export(NodePath) var name_input_root_path
-export(NodePath) var network_manager_path
 export(NodePath) var players_list_path
 
 var host_or_connect_root: Control
@@ -16,7 +15,6 @@ var host_info_root: Control
 var host_button: Button
 var connect_button: Button
 var name_input_root: Control
-var network_manager: Node
 var players_list: Label
 
 # Called when the node enters the scene tree for the first time.
@@ -25,7 +23,6 @@ func _ready():
     host_info_root = get_node(host_info_root_path)
     connect_gui_root = get_node(connect_gui_root_path)
     name_input_root = get_node(name_input_root_path)
-    network_manager = get_node(network_manager_path)
     players_list = get_node(players_list_path)
 
 func show_no_scenes():
@@ -52,23 +49,20 @@ func show_return_to_server_selection_scene(text: String):
     clear_peers_list()
 
 func _host_server():
-    show_no_scenes()
-    show_hosting_options_scene()
     add_player_to_list(get_name())
-    network_manager.set_player_name(get_name())
-    network_manager.host_server(host_info_root.get_port())
+    NetworkManager.set_player_name(get_name())
 
 func _on_host_button_pressed():
     show_no_scenes()
     show_hosting_options_scene()
 
 func connect_to_server():
-    network_manager.set_player_name(get_name())
+    NetworkManager.set_player_name(get_name())
     name_input_root.visible = false
 
     var ip_address = connect_gui_root.get_ip()
     var port = connect_gui_root.get_port()
-    network_manager.connect_to_server(ip_address, port)
+    NetworkManager.connect_to_server(ip_address, port)
 
 func _on_connect_to_server_button_pressed():
     print("Pressed connect")
@@ -78,7 +72,7 @@ func _on_connect_to_server_button_pressed():
 func disconnect_from_network():
     print("Disconnect from server")
     clear_peers_list()
-    network_manager.disconnect_from_network()
+    NetworkManager.disconnect_from_network()
     name_input_root.visible = true
 
 func return_to_main_scene():
@@ -87,13 +81,13 @@ func return_to_main_scene():
     show_host_or_connect_scene()
 
 func _on_singleplayer_button_pressed():
-    var world = network_manager.load_world()
+    var world = NetworkManager.load_world()
     var player = world.get_node("Player")
     player.set_name_label(get_name())
     queue_free()
 
 func start_game():
-    network_manager.start_multiplayer_game()
+    NetworkManager.start_multiplayer_game()
 
 func clear_peers_list():
     players_list.text = ""

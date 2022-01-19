@@ -30,10 +30,17 @@ func _ready():
     lobby = get_node(lobby_path)
     hosting_options = get_node(hosting_options_path)
 
-    host_button.connect("pressed", self, "emit_signal", ["host_server"])
     back_button.connect("pressed", self, "emit_signal", ["stop_hosting"])
     close_button.connect("pressed", self, "emit_signal", ["close_scene"])
     start_button.connect("pressed", self, "emit_signal", ["start_game"])
+
+func _on_host_button_pressed():
+    var error = NetworkManager.host_server(get_port())
+    if not error:
+        emit_signal("host_server")
+        show_hosting()
+    else:
+        print("Couldn't host server: error code %s" % error as String)
 
 func get_port():
     return port_input.text as int

@@ -150,4 +150,4 @@ size_flags_horizontal = 3
 text = "Host server"
 
 [connection signal="pressed" from="Lobby/ButtonsHBox/BackButton" to="." method="show_hosting_options"]
-[connection signal="pressed" from="HostingOptions/ButtonsHBox/HostButton" to="." method="show_hosting"]
+[connection signal="pressed" from="HostingOptions/ButtonsHBox/HostButton" to="." method="_on_host_button_pressed"]

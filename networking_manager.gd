@@ -1,9 +1,8 @@
 extends Node
 
-export(NodePath) var server_ui_path
-export(PackedScene) var main_scene
-export(PackedScene) var player_scene
-export(PackedScene) var server_selection_scene
+var main_scene
+var player_scene
+var server_selection_scene
 
 var server_ui: Node
 const MAX_PLAYERS = 4
@@ -14,7 +13,10 @@ func _ready():
     get_tree().connect("connected_to_server", self, "_connected_ok")
     get_tree().connect("connection_failed", self, "_connected_fail")
     get_tree().connect("server_disconnected", self, "_server_disconnected")
-    server_ui = get_node(server_ui_path)
+    server_ui = get_node("/root/ServerSelection")
+    main_scene = load("res://main.tscn")
+    player_scene = load("res://player/player.tscn")
+    server_selection_scene = load("res://server_selection_ui.tscn")
 
     # TODO: Negotiate with the server over a seed when connecting
     # instead of having the same one every time
@@ -34,8 +36,10 @@ func disconnect_from_network():
 
 func host_server(port: int):
     var peer = WebSocketServer.new()
-    peer.listen(port, PoolStringArray(), true)
-    get_tree().set_network_peer(peer)
+    var error = peer.listen(port, PoolStringArray(), true)
+    if not error:
+        get_tree().set_network_peer(peer)
+    return error
 
 func connect_to_server(ip_address: String, port: int):
     # We only use websockets so that native clients
@@ -83,7 +87,6 @@ func _server_disconnected():
     if not is_instance_valid(server_ui):
         server_ui = server_selection_scene.instance()
         add_child(server_ui)
-        server_ui.network_manager = self
 
     server_ui.show_no_scenes()
     server_ui.show_return_to_server_selection_scene("Server disconnected us :(")

@@ -4,14 +4,13 @@
 [ext_resource path="res://connect_options.tscn" type="PackedScene" id=2]
 [ext_resource path="res://hosting_gui.tscn" type="PackedScene" id=3]
 
-[node name="Canvas" type="CanvasLayer"]
+[node name="ServerSelection" type="CanvasLayer"]
 script = ExtResource( 1 )
 connect_gui_root_path = NodePath("ReferenceRect/ConnectGui")
 host_info_root_path = NodePath("ReferenceRect/HostingGui")
 host_or_connect_root_path = NodePath("ReferenceRect/HostOrConnectHBox")
 back_button_path = NodePath("ReferenceRect/HostingGui/ButtonsHBox/BackButton")
 name_input_root_path = NodePath("ReferenceRect/NameVBox")
-network_manager_path = NodePath("..")
 players_list_path = NodePath("ReferenceRect/PlayersListVBox/PlayersListLabel")
 
 [node name="ReferenceRect" type="ReferenceRect" parent="."]
