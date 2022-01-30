@@ -56,7 +56,7 @@ func _on_host_button_pressed():
     show_no_scenes()
     show_hosting_options_scene()
 
-func connect_to_server():
+func _connect_to_server():
     NetworkManager.set_player_name(get_name())
     name_input_root.visible = false
 
@@ -69,13 +69,13 @@ func _on_connect_to_server_button_pressed():
     show_no_scenes()
     show_connection_options_scene()
 
-func disconnect_from_network():
+func _disconnect_from_network():
     print("Disconnect from server")
     clear_peers_list()
     NetworkManager.disconnect_from_network()
     name_input_root.visible = true
 
-func return_to_main_scene():
+func _return_to_main_scene():
     print("Return to main")
     show_no_scenes()
     show_host_or_connect_scene()
@@ -86,7 +86,7 @@ func _on_singleplayer_button_pressed():
     player.set_name_label(get_name())
     queue_free()
 
-func start_game():
+func _start_game():
     NetworkManager.start_multiplayer_game()
 
 func clear_peers_list():
