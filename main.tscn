@@ -3,7 +3,6 @@
 [ext_resource path="res://player/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://ground/ground.tscn" type="PackedScene" id=2]
 [ext_resource path="res://images/house.png" type="Texture" id=3]
-[ext_resource path="res://ore_map/ore_map.tscn" type="PackedScene" id=4]
 [ext_resource path="res://targeting_mesh/target_mesh.gd" type="Script" id=5]
 [ext_resource path="res://enemies/slime.tscn" type="PackedScene" id=6]
 [ext_resource path="res://images/inventory.png" type="Texture" id=7]
@@ -16,6 +15,7 @@
 [ext_resource path="res://objects/mailbox.gd" type="Script" id=14]
 [ext_resource path="res://gui/mail_entry.tscn" type="PackedScene" id=15]
 [ext_resource path="res://menu_close_button.gd" type="Script" id=16]
+[ext_resource path="res://ore.tscn" type="PackedScene" id=18]
 
 [sub_resource type="StyleBoxFlat" id=22]
 bg_color = Color( 0.678431, 0.470588, 0.270588, 1 )
@@ -69,10 +69,7 @@ texture = ExtResource( 3 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 336.604, 120.412 )
-tilemap_path = NodePath("../Ore")
 inventory_path = NodePath("../CanvasLayer/Inventory")
-
-[node name="Ore" parent="." instance=ExtResource( 4 )]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -285,5 +282,7 @@ position = Vector2( 536, 72 )
 scale = Vector2( 0.5, 0.5 )
 frames = SubResource( 17 )
 playing = true
+
+[node name="Ore" parent="." instance=ExtResource( 18 )]
 
 [editable path="Player"]

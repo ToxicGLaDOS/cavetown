@@ -22,9 +22,7 @@ func _on_body_entered(body):
     # hit an enemy because if everyone does it, then we'll
     # deal 1 damage per player when anyone hits an enemy
     if body.is_in_group("enemies"):
-        if get_tree().network_peer == null:
-            body.deal_damage(1)
-        elif get_tree().network_peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED and is_network_master():
+        if is_network_master():
             body.rpc("deal_damage", 1)
 
 func swing():

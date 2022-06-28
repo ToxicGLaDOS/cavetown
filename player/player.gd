@@ -1,6 +1,5 @@
 extends KinematicBody2D
 
-export(NodePath) var tilemap_path
 export(NodePath) var inventory_path
 export(NodePath) var sword_path
 export(NodePath) var animated_sprite_path
@@ -8,7 +7,6 @@ export(NodePath) var interaction_area_path
 
 export(float) var speed
 
-var tilemap: TileMap
 var interaction_area: Area2D
 var animated_sprite: AnimatedSprite
 # The distance away from the character that we're hitting
@@ -19,7 +17,6 @@ enum Direction {UP, LEFT, DOWN, RIGHT}
 puppet var puppet_pos = Vector2()
 
 func _ready():
-    tilemap = get_node("/root/World/Ore")
     interaction_area = get_node(interaction_area_path)
     animated_sprite = get_node(animated_sprite_path)
     interaction_area_distance = interaction_area.position.length()
@@ -80,12 +77,11 @@ remote func rotate_character(direction):
         interaction_area.rotation_degrees = 0
 
 remotesync func break_ore():
-        var position = interaction_area.global_position
-        
-        var hit_x = floor(position.x / tilemap.cell_size.x)
-        var hit_y = floor(position.y / tilemap.cell_size.y)
-        
-        var hit_cell = tilemap.hit_cell(hit_x, hit_y)
+        var overlapping_bodies = interaction_area.get_overlapping_bodies()
+        if overlapping_bodies.size() > 0:
+            # TODO: Pick the best one
+            var ore = overlapping_bodies[0]
+            ore.hit()
 
 # Called by an item to tell the player to pick it up
 func pickup_item(item_stack):
@@ -102,14 +98,11 @@ func _input(event):
         if overlapping_bodies.size() > 0:
             # TODO: Pick the one closest to the middle maybe?
             var obj = overlapping_bodies[0]
-            obj.player_activate()
-        elif get_tree().network_peer == null:
-            break_ore()
-        elif get_tree().network_peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED and is_network_master():
-            rpc("break_ore")
+            if obj.is_in_group('ore') and is_network_master():
+                rpc("break_ore")
+            elif obj.name == 'Mailbox':
+                obj.player_activate()
 
     if event is InputEventKey and event.pressed and event.scancode == KEY_E:
-        if get_tree().network_peer == null:
-            swing_sword()
-        elif get_tree().network_peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED and is_network_master():
+        if is_network_master():
             rpc("swing_sword")
