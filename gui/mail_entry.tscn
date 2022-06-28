@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="StyleBoxFlat" id=22]
+bg_color = Color( 0.93, 0.713775, 0.5115, 1 )
+border_color = Color( 0.501961, 0.0745098, 0.0745098, 1 )
+shadow_color = Color( 0, 0, 0, 0.843137 )
+
+[node name="MailEntry" type="PanelContainer"]
+margin_top = 18.0
+margin_right = 405.0
+margin_bottom = 83.0
+custom_styles/panel = SubResource( 22 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MailText" type="Label" parent="."]
+margin_right = 405.0
+margin_bottom = 65.0
+text = "Hello!
+
+Welcome to cavetown. This is a test message to test out the mailbox."
+autowrap = true

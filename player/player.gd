@@ -1,18 +1,18 @@
 extends KinematicBody2D
 
 export(NodePath) var tilemap_path
-export(NodePath) var hit_position_path
 export(NodePath) var inventory_path
 export(NodePath) var sword_path
 export(NodePath) var animated_sprite_path
+export(NodePath) var interaction_area_path
 
 export(float) var speed
 
 var tilemap: TileMap
-var hit_position: Position2D
+var interaction_area: Area2D
 var animated_sprite: AnimatedSprite
 # The distance away from the character that we're hitting
-var hit_position_distance: float
+var interaction_area_distance: float
 
 enum Direction {UP, LEFT, DOWN, RIGHT}
 
@@ -20,9 +20,9 @@ puppet var puppet_pos = Vector2()
 
 func _ready():
     tilemap = get_node("/root/World/Ore")
-    hit_position = get_node(hit_position_path)
+    interaction_area = get_node(interaction_area_path)
     animated_sprite = get_node(animated_sprite_path)
-    hit_position_distance = hit_position.position.length()
+    interaction_area_distance = interaction_area.position.length()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -64,23 +64,23 @@ func set_name_label(name: String):
 remote func rotate_character(direction):
     if direction == Direction.UP:
         animated_sprite.animation = "up"
-        hit_position.position = Vector2(0, 2 * -hit_position_distance)
-        hit_position.rotation_degrees = -90
+        interaction_area.position = Vector2(0, 2 * -interaction_area_distance)
+        interaction_area.rotation_degrees = -90
     elif direction == Direction.LEFT:
         animated_sprite.animation = "left"
-        hit_position.position = Vector2(-hit_position_distance, 0)
-        hit_position.rotation_degrees = 180
+        interaction_area.position = Vector2(-interaction_area_distance, 0)
+        interaction_area.rotation_degrees = 180
     elif direction == Direction.DOWN:
         animated_sprite.animation = "down"
-        hit_position.position = Vector2(0, 2 * hit_position_distance)
-        hit_position.rotation_degrees = 90
+        interaction_area.position = Vector2(0, 2 * interaction_area_distance)
+        interaction_area.rotation_degrees = 90
     elif direction == Direction.RIGHT:
         animated_sprite.animation = "right"
-        hit_position.position = Vector2(hit_position_distance, 0) 
-        hit_position.rotation_degrees = 0
+        interaction_area.position = Vector2(interaction_area_distance, 0) 
+        interaction_area.rotation_degrees = 0
 
 remotesync func break_ore():
-        var position = hit_position.global_position
+        var position = interaction_area.global_position
         
         var hit_x = floor(position.x / tilemap.cell_size.x)
         var hit_y = floor(position.y / tilemap.cell_size.y)
@@ -98,7 +98,12 @@ remotesync func swing_sword():
 
 func _input(event):
     if event is InputEventKey and event.pressed and event.scancode == KEY_SPACE:
-        if get_tree().network_peer == null:
+        var overlapping_bodies = interaction_area.get_overlapping_bodies()
+        if overlapping_bodies.size() > 0:
+            # TODO: Pick the one closest to the middle maybe?
+            var obj = overlapping_bodies[0]
+            obj.player_activate()
+        elif get_tree().network_peer == null:
             break_ore()
         elif get_tree().network_peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED and is_network_master():
             rpc("break_ore")
