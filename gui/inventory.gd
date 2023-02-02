@@ -12,7 +12,7 @@ var selected_index: int setget ,get_selected_index
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-    for x in range(inventory_size):
+    for _x in range(inventory_size):
         inventory.append(null)
     selector_node = get_node(selector_indicator)
 
@@ -50,7 +50,3 @@ func add_item(item_stack):
         inventory[get_selected_index()] = item_stack
         child.add_child(item_icon)
         child.get_node("InventoryIcon").get_node("Label").set_text(item_stack.quantity as String)
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#    pass

@@ -26,11 +26,13 @@ run/main_scene="res://server_selection_ui.tscn"
 [autoload]
 
 NetworkManager="*res://networking_manager.gd"
+SceneSwitcher="*res://scene_switcher.gd"
 
 [global]
 
 text=false
 editor=false
+auto=false
 
 [importer_defaults]
 

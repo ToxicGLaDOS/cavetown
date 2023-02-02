@@ -1,7 +1,12 @@
 extends Control
 
+# These signals are called in a way that can't be detected
+# so they have erroneous warnings which we ignore
+# warning-ignore:unused_signal
 signal close_scene
+# warning-ignore:unused_signal
 signal connect_to_server
+# warning-ignore:unused_signal
 signal disconnect_from_server
 
 export(NodePath) var ip_input_path
@@ -38,15 +43,35 @@ func _ready():
     return_to_server_selection = get_node(return_to_server_selection_path)
     reconnect_button = get_node(reconnect_button_path)
 
-    get_tree().connect("connection_failed", self, "_connection_fail")
-    get_tree().connect("connected_to_server", self, "_connected_to_server")
+    var err = get_tree().connect("connection_failed", self, "_connection_fail")
+    if err != OK:
+        push_error("Failed to connect signal connection_failed. Error was %s" % err)
+
+    err = get_tree().connect("connected_to_server", self, "_connected_to_server")
+    if err != OK:
+        push_error("Failed to connect signal connected_to_server. Error was %s" % err)
 
     # Used to pass the button press singals through to the server_ui_manager
-    back_button.connect("pressed", self, "emit_signal", ["close_scene"])
-    connect_button.connect("pressed", self, "emit_signal", ["connect_to_server"])
-    reconnect_button.connect("pressed", self, "emit_signal", ["connect_to_server"])
-    disconnect_button.connect("pressed", self, "emit_signal", ["disconnect_from_server"])
-    cancel_button.connect("pressed", self, "emit_signal", ["disconnect_from_server"])
+    err = back_button.connect("pressed", self, "emit_signal", ["close_scene"])
+    if err != OK:
+        push_error("Failed to connect signal pressed. Error was %s" % err)
+
+    err = connect_button.connect("pressed", self, "emit_signal", ["connect_to_server"])
+    if err != OK:
+        push_error("Failed to connect signal pressed. Error was %s" % err)
+
+    err = reconnect_button.connect("pressed", self, "emit_signal", ["connect_to_server"])
+    if err != OK:
+        push_error("Failed to connect signal pressed. Error was %s" % err)
+
+    err = disconnect_button.connect("pressed", self, "emit_signal", ["disconnect_from_server"])
+    if err != OK:
+        push_error("Failed to connect signal pressed. Error was %s" % err)
+
+    err = cancel_button.connect("pressed", self, "emit_signal", ["disconnect_from_server"])
+    if err != OK:
+        push_error("Failed to connect signal pressed. Error was %s" % err)
+
 
 # We handle connection_failed here, but not server_disconnected
 # because we have to accept the case where the server_disconnected

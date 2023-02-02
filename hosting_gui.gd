@@ -1,8 +1,14 @@
 extends Control
 
 signal host_server
+
+# These signals are called in a way that can't be detected
+# so they have erroneous warnings which we ignore
+# warning-ignore:unused_signal
 signal stop_hosting
+# warning-ignore:unused_signal
 signal close_scene
+# warning-ignore:unused_signal
 signal start_game
 
 export(NodePath) var host_button_path
@@ -30,9 +36,17 @@ func _ready():
     lobby = get_node(lobby_path)
     hosting_options = get_node(hosting_options_path)
 
-    back_button.connect("pressed", self, "emit_signal", ["stop_hosting"])
-    close_button.connect("pressed", self, "emit_signal", ["close_scene"])
-    start_button.connect("pressed", self, "emit_signal", ["start_game"])
+    var err = back_button.connect("pressed", self, "emit_signal", ["stop_hosting"])
+    if err != OK:
+        push_error("Failed to connect signal connection_failed. Error was %s" % err)
+
+    err = close_button.connect("pressed", self, "emit_signal", ["close_scene"])
+    if err != OK:
+        push_error("Failed to connect signal connection_failed. Error was %s" % err)
+
+    err = start_button.connect("pressed", self, "emit_signal", ["start_game"])
+    if err != OK:
+        push_error("Failed to connect signal connection_failed. Error was %s" % err)
 
 func _on_host_button_pressed():
     var error = NetworkManager.host_server(get_port())

@@ -11,6 +11,7 @@ var interaction_area: Area2D
 var animated_sprite: AnimatedSprite
 # The distance away from the character that we're hitting
 var interaction_area_distance: float
+var inventory: Node
 
 enum Direction {UP, LEFT, DOWN, RIGHT}
 
@@ -19,29 +20,37 @@ puppet var puppet_pos = Vector2()
 func _ready():
     interaction_area = get_node(interaction_area_path)
     animated_sprite = get_node(animated_sprite_path)
+    inventory = get_tree().get_nodes_in_group('inventory')[0]
     interaction_area_distance = interaction_area.position.length()
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
     # Make sure that we only move ourselves
+
     if get_tree().network_peer == null or (get_tree().network_peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED and is_network_master()):
         if Input.is_key_pressed(KEY_W):
+            # warning-ignore:return_value_discarded
             move_and_slide(Vector2(0, -1) * speed * delta)
             if get_tree().network_peer != null:
                 rpc("rotate_character", Direction.UP)
             rotate_character(Direction.UP)
+
         if Input.is_key_pressed(KEY_A):
+            # warning-ignore:return_value_discarded
             move_and_slide(Vector2(-1, 0) * speed * delta)
             if get_tree().network_peer != null:
                 rpc("rotate_character", Direction.LEFT)
             rotate_character(Direction.LEFT)
+
         if Input.is_key_pressed(KEY_S):
+            # warning-ignore:return_value_discarded
             move_and_slide(Vector2(0, 1) * speed * delta)
             if get_tree().network_peer != null:
                 rpc("rotate_character", Direction.DOWN)
             rotate_character(Direction.DOWN)
+
         if Input.is_key_pressed(KEY_D):
+            # warning-ignore:return_value_discarded
             move_and_slide(Vector2(1, 0) * speed * delta)
             if get_tree().network_peer != null:
                 rpc("rotate_character", Direction.RIGHT)
@@ -85,7 +94,7 @@ remotesync func break_ore():
 
 # Called by an item to tell the player to pick it up
 func pickup_item(item_stack):
-    get_node("/root/World/CanvasLayer/Inventory").add_item(item_stack)
+    inventory.add_item(item_stack)
 
 
 remotesync func swing_sword():
@@ -98,11 +107,16 @@ func _input(event):
         if overlapping_bodies.size() > 0:
             # TODO: Pick the one closest to the middle maybe?
             var obj = overlapping_bodies[0]
-            if obj.is_in_group('ore') and is_network_master():
-                rpc("break_ore")
+            if obj.is_in_group('ore'):
+                if get_tree().network_peer == null:
+                    break_ore()
+                elif is_network_master():
+                    rpc("break_ore")
             elif obj.name == 'Mailbox':
                 obj.player_activate()
 
     if event is InputEventKey and event.pressed and event.scancode == KEY_E:
-        if is_network_master():
+        if get_tree().network_peer == null:
+            swing_sword()
+        elif is_network_master():
             rpc("swing_sword")

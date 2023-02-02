@@ -81,12 +81,8 @@ func _return_to_main_scene():
     show_host_or_connect_scene()
 
 func _on_singleplayer_button_pressed():
-    var error = NetworkManager.host_server(42069)
-    if not error: 
-        NetworkManager.set_player_name(get_name())
-        NetworkManager.start_multiplayer_game()
-    else:
-        print("Couldn't host server: error code %s" % error as String)
+    var world = NetworkManager.load_world()
+    NetworkManager.load_player(get_name(), 1, world)
 
 func _start_game():
     NetworkManager.start_multiplayer_game()

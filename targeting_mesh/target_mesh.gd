@@ -60,10 +60,10 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-        var x = floor(player.interaction_area.global_position.x / 16) * 16
-        var y = floor(player.interaction_area.global_position.y / 16) * 16
-        position = Vector2(x, y)
+func _process(_delta):
+    var x = floor(player.interaction_area.global_position.x / 16) * 16
+    var y = floor(player.interaction_area.global_position.y / 16) * 16
+    position = Vector2(x, y)
 
 
 

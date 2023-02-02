@@ -1,6 +1,6 @@
 extends Node
 
-var main_scene
+var main_scene_path
 var player_scene
 var server_selection_scene
 
@@ -8,16 +8,36 @@ var server_ui: Node
 const MAX_PLAYERS = 4
 
 func _ready():
-    get_tree().connect("network_peer_connected", self, "_player_connected")
-    get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
-    get_tree().connect("connected_to_server", self, "_connected_ok")
-    get_tree().connect("connection_failed", self, "_connected_fail")
-    get_tree().connect("server_disconnected", self, "_server_disconnected")
-    server_ui = get_node("/root/ServerSelection")
-    main_scene = load("res://main.tscn")
-    player_scene = load("res://player/player.tscn")
-    server_selection_scene = load("res://server_selection_ui.tscn")
+    # TODO: If these fail we have big problems
+    # so maybe make something happen to show the user
+    var err = get_tree().connect("network_peer_connected", self, "_player_connected")
+    if err != OK:
+        push_error("Failed to connect signal network_peer_connected. Error was %s" % err)
 
+    err = get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
+    if err != OK:
+        push_error("Failed to connect signal network_peer_disconnected. Error was %s" % err)
+
+    err = get_tree().connect("connected_to_server", self, "_connected_ok")
+    if err != OK:
+        push_error("Failed to connect signal connected_to_server. Error was %s" % err)
+
+    err = get_tree().connect("connection_failed", self, "_connected_fail")
+    if err != OK:
+        push_error("Failed to connect signal connection_failed. Error was %s" % err)
+
+    err = get_tree().connect("server_disconnected", self, "_server_disconnected")
+    if err != OK:
+        push_error("Failed to connect signal server_disconnected. Error was %s" % err)
+
+    server_selection_scene = load("res://server_selection_ui.tscn")
+    if has_node("/root/ServerSelection"):
+        server_ui = get_node("/root/ServerSelection")
+    else:
+        server_ui = server_selection_scene.instance()
+    main_scene_path = "res://main.tscn"
+    player_scene = load("res://player/player.tscn")
+    server_selection_scene.instance()
     # TODO: Negotiate with the server over a seed when connecting
     # instead of having the same one every time
     seed(0)
@@ -53,7 +73,7 @@ func connect_to_server(ip_address: String, port: int):
 
 # Called when a WebSocketClient is requested to disconnect
 # We just forward it to the normal _server_disconnected logic
-func _server_close_request(code: int, reason: String):
+func _server_close_request(_code: int, _reason: String):
     _server_disconnected()
 
 # Called on both clients and server when a peer connects. Send my info to it.
@@ -114,11 +134,17 @@ remote func register_player(info):
 
 func load_world():
     # Load world
-    var world = main_scene.instance()
-    var root = get_node("/root")
-    root.add_child(world)
-
+    var world = SceneSwitcher.change_scene_immediate(main_scene_path)
     return world
+
+func load_player(name: String, peer_id: int, world: Node):
+    var player = player_scene.instance()
+    world.add_child(player)
+    player.set_name(str(peer_id))
+    player.set_name_label(name)
+    player.set_network_master(peer_id)
+
+    return player
 
 remotesync func pre_configure_game():
     print("start pre_configure_game")
@@ -129,19 +155,11 @@ remotesync func pre_configure_game():
 
     var world = load_world()
 
-    # Load my player
-    var my_player = world.get_node("Player")
-    my_player.set_name(str(selfPeerID))
-    my_player.set_name_label(my_info['name'])
-    my_player.set_network_master(selfPeerID) # Will be explained later
+    var my_player = load_player(my_info["name"], selfPeerID, world)
 
     # Load other players
-    for p in player_info:
-        var player = player_scene.instance()
-        player.set_name(str(p))
-        player.set_network_master(p) # Will be explained later
-        get_node("/root/World").add_child(player)
-        player.set_name_label(player_info[p]["name"])
+    for player_id in player_info.keys():
+        var _player = load_player(player_info[player_id]["name"], player_id, world)
 
     my_player.get_node("Camera2D").current = true
     # Only clients should call the done_preconfiguring step
@@ -176,6 +194,4 @@ remotesync func post_configure_game():
     if get_tree().get_rpc_sender_id() == 1:
         get_tree().set_pause(false)
         # Game starts now!
-        # Destroy the server lobby ui
-        server_ui.queue_free()
 
