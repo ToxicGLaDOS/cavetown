@@ -8,6 +8,7 @@ export(NodePath) var animated_sprite_path
 export(NodePath) var interaction_area_path
 
 export(float) var speed
+export(int) var health
 
 var interaction_area: Area2D
 var animated_sprite: AnimatedSprite
@@ -62,6 +63,15 @@ func _process(delta):
             rset("puppet_pos", position)
     else:
         position = puppet_pos
+
+func on_death():
+    position = Vector2(0, 0)
+    
+
+func deal_damage(damage: int):
+    health -= damage
+    if health <= 0:
+        on_death()
 
 func set_name_label(name: String):
     var name_label = get_node("NameLabel")
