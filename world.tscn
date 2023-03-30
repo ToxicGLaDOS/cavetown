@@ -1,6 +1,7 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://load_scene_on_enter.gd" type="Script" id=1]
+[ext_resource path="res://chest.tscn" type="PackedScene" id=2]
 [ext_resource path="res://menu_close_button.gd" type="Script" id=3]
 [ext_resource path="res://enemies/slime.tscn" type="PackedScene" id=4]
 [ext_resource path="res://gui/mail_entry.tscn" type="PackedScene" id=9]
@@ -153,3 +154,6 @@ frames = SubResource( 17 )
 playing = true
 
 [node name="Ore" parent="." instance=ExtResource( 10 )]
+
+[node name="Chest" parent="." instance=ExtResource( 2 )]
+position = Vector2( 248.791, 23.9614 )

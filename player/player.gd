@@ -1,4 +1,6 @@
 extends KinematicBody2D
+class_name Player
+
 
 export(NodePath) var inventory_path
 export(NodePath) var sword_path
@@ -112,8 +114,8 @@ func _input(event):
                     break_ore()
                 elif is_network_master():
                     rpc("break_ore")
-            elif obj.name == 'Mailbox':
-                obj.player_activate()
+            elif obj.has_method('player_activate'):
+                obj.player_activate(self)
 
     if event is InputEventKey and event.pressed and event.scancode == KEY_E:
         if get_tree().network_peer == null:

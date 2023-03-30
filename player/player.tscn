@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://images/character.png" type="Texture" id=1]
 [ext_resource path="res://targeting_mesh/target_mesh.gd" type="Script" id=2]
@@ -6,7 +6,6 @@
 [ext_resource path="res://player/sword.tscn" type="PackedScene" id=4]
 [ext_resource path="res://gui/inventory.gd" type="Script" id=5]
 [ext_resource path="res://gui/inventory_icon.tscn" type="PackedScene" id=6]
-[ext_resource path="res://images/iron_chunk.png" type="Texture" id=7]
 [ext_resource path="res://images/inventory_selector.png" type="Texture" id=8]
 [ext_resource path="res://images/inventory.png" type="Texture" id=9]
 
@@ -122,7 +121,6 @@ stretch_mode = 3
 script = ExtResource( 5 )
 inventory_icon_scene = ExtResource( 6 )
 selector_indicator = NodePath("Control/inventory_selector")
-iron_chunk_texture = ExtResource( 7 )
 
 [node name="Control" type="Control" parent="GUI/Inventory"]
 margin_left = 3.11813

@@ -10,12 +10,6 @@
 [node name="HouseLoadingArea" parent="World/house" index="0"]
 connected_node_path = NodePath("../../../HouseInterior")
 
-[node name="Plant1" parent="World" index="4"]
-frame = 0
-
-[node name="Plant2" parent="World" index="5"]
-frame = 0
-
 [node name="HouseInterior" parent="." instance=ExtResource( 1 )]
 position = Vector2( -474.922, 92.9812 )
 

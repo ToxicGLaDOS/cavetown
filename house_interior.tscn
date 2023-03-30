@@ -62,7 +62,6 @@ texture = ExtResource( 2 )
 
 [node name="Area2D" type="Area2D" parent="Door"]
 script = ExtResource( 3 )
-scene_path = "res://world.tscn"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Door/Area2D"]
 shape = SubResource( 2 )
