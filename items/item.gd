@@ -1,5 +1,5 @@
 class_name Item
 extends Resource
 
-export(int) var id
-export(StreamTexture) var inventory_texture
+@export var id: int
+@export var inventory_texture: CompressedTexture2D

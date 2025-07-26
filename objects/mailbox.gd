@@ -1,6 +1,6 @@
 extends Node
 
-export(NodePath) var mail_menu_path
+@export var mail_menu_path: NodePath
 
 var mail_menu
 
@@ -9,5 +9,5 @@ func _ready():
     mail_menu = get_node(mail_menu_path)
 
 
-func player_activate():
+func player_activate(_player):
     mail_menu.visible = true

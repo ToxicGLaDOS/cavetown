@@ -2,11 +2,11 @@ extends Node
 
 var current_scene: Node = null
 
-func load_scene(var path) -> Node:
+func load_scene(path) -> Node:
     var result = null
     if ResourceLoader.exists(path):
       result = ResourceLoader.load(path)
-      return result.instance()
+      return result.instantiate()
     return result
 
 func _ready():

@@ -1,11 +1,10 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
 
-export(int) var health
-export(int) var base_damage
+@export var health: int
+@export var base_damage: int
 
-remotesync func deal_damage(damage: int):
-    print("dealt damage")
+func deal_damage(damage: int):
     health -= damage
     if health <= 0:
         queue_free()

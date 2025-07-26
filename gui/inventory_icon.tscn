@@ -10,8 +10,8 @@ __meta__ = {
 [node name="Label" type="Label" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -8.0
-margin_bottom = 14.0
+offset_left = -8.0
+offset_bottom = 14.0
 text = "0"
 align = 1
 valign = 1

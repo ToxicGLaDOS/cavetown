@@ -8,13 +8,13 @@ extends MeshInstance2D
 var bar_width = 2
 var width = 16
 var player: Node2D
-export(NodePath) var player_path
+@export var player_path: NodePath
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
     player = get_node(player_path)
 
-    var vertices = PoolVector3Array()
+    var vertices = PackedVector3Array()
     vertices.push_back(Vector3(0, 0, 0))
     vertices.push_back(Vector3(width, 0, 0))
     vertices.push_back(Vector3(0, bar_width, 0))
@@ -55,7 +55,7 @@ func _ready():
     arrays[ArrayMesh.ARRAY_VERTEX] = vertices
     # Create the Mesh.
     arr_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
-    var m = MeshInstance.new()
+    var m = MeshInstance3D.new()
     m.mesh = arr_mesh
 
 

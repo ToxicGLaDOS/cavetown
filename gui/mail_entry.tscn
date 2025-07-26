@@ -6,17 +6,17 @@ border_color = Color( 0.501961, 0.0745098, 0.0745098, 1 )
 shadow_color = Color( 0, 0, 0, 0.843137 )
 
 [node name="MailEntry" type="PanelContainer"]
-margin_top = 18.0
-margin_right = 405.0
-margin_bottom = 83.0
-custom_styles/panel = SubResource( 22 )
+offset_top = 18.0
+offset_right = 405.0
+offset_bottom = 83.0
+theme_override_styles/panel = SubResource( 22 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="MailText" type="Label" parent="."]
-margin_right = 405.0
-margin_bottom = 65.0
+offset_right = 405.0
+offset_bottom = 65.0
 text = "Hello!
 
 Welcome to cavetown. This is a test message to test out the mailbox."

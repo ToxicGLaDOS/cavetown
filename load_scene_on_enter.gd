@@ -1,12 +1,12 @@
 extends Area2D
 
-export(NodePath) var connected_node_path
+@export var connected_node_path: NodePath
 
 var connected_node
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-    var err = connect('body_entered', self, '_on_body_entered')
+    var err = connect('body_entered', Callable(self, '_on_body_entered'))
     if err != OK:
         push_error("Failed to connect signal body_entered. Error was %s" % err)
 

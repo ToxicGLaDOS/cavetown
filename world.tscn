@@ -1,159 +1,150 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=21 format=3 uid="uid://deer2xy0ocaka"]
 
-[ext_resource path="res://load_scene_on_enter.gd" type="Script" id=1]
-[ext_resource path="res://chest.tscn" type="PackedScene" id=2]
-[ext_resource path="res://menu_close_button.gd" type="Script" id=3]
-[ext_resource path="res://enemies/slime.tscn" type="PackedScene" id=4]
-[ext_resource path="res://gui/mail_entry.tscn" type="PackedScene" id=9]
-[ext_resource path="res://ore.tscn" type="PackedScene" id=10]
-[ext_resource path="res://ground/ground.tscn" type="PackedScene" id=11]
-[ext_resource path="res://images/mailbox.png" type="Texture" id=13]
-[ext_resource path="res://objects/mailbox.gd" type="Script" id=14]
-[ext_resource path="res://images/house.png" type="Texture" id=16]
-[ext_resource path="res://images/plant.png" type="Texture" id=17]
+[ext_resource type="Script" uid="uid://bs5gdspfdawg0" path="res://load_scene_on_enter.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://bjccolauvv41q" path="res://chest.tscn" id="2"]
+[ext_resource type="Script" uid="uid://b15usr782vax7" path="res://menu_close_button.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://bdknlg37yqu6k" path="res://enemies/slime.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://gui/mail_entry.tscn" id="9"]
+[ext_resource type="PackedScene" uid="uid://dtwx8vsq0t8o3" path="res://ore.tscn" id="10"]
+[ext_resource type="PackedScene" path="res://ground/ground.tscn" id="11"]
+[ext_resource type="Texture2D" uid="uid://dqsswk87de3ae" path="res://images/mailbox.png" id="13"]
+[ext_resource type="Script" uid="uid://bv4id5ejhh54a" path="res://objects/mailbox.gd" id="14"]
+[ext_resource type="Texture2D" uid="uid://c1r4jwexuxqhc" path="res://images/house.png" id="16"]
+[ext_resource type="Texture2D" uid="uid://db7cjnbsquuyy" path="res://images/plant.png" id="17"]
 
-[sub_resource type="RectangleShape2D" id=24]
-extents = Vector2( 6, 8.5 )
+[sub_resource type="RectangleShape2D" id="24"]
+size = Vector2(12, 17)
 
-[sub_resource type="RectangleShape2D" id=18]
-extents = Vector2( 6.5, 15 )
+[sub_resource type="RectangleShape2D" id="18"]
+size = Vector2(13, 30)
 
-[sub_resource type="StyleBoxFlat" id=22]
-bg_color = Color( 0.678431, 0.470588, 0.270588, 1 )
+[sub_resource type="StyleBoxFlat" id="22"]
+bg_color = Color(0.678431, 0.470588, 0.270588, 1)
 
-[sub_resource type="StyleBoxFlat" id=19]
-bg_color = Color( 0.93, 0.6417, 0.372, 1 )
+[sub_resource type="StyleBoxFlat" id="19"]
+bg_color = Color(0.93, 0.6417, 0.372, 1)
 
-[sub_resource type="StyleBoxFlat" id=23]
-bg_color = Color( 0.47, 0.3243, 0.188, 1 )
+[sub_resource type="StyleBoxFlat" id="23"]
+bg_color = Color(0.47, 0.3243, 0.188, 1)
 
-[sub_resource type="Theme" id=25]
-Button/colors/font_color = Color( 0.054902, 0.054902, 0.054902, 1 )
-Button/styles/hover = SubResource( 22 )
-Button/styles/normal = SubResource( 19 )
-Button/styles/pressed = SubResource( 23 )
+[sub_resource type="Theme" id="25"]
+Button/colors/font_color = Color(0.054902, 0.054902, 0.054902, 1)
+Button/styles/hover = SubResource("22")
+Button/styles/normal = SubResource("19")
+Button/styles/pressed = SubResource("23")
 
-[sub_resource type="AtlasTexture" id=15]
-atlas = ExtResource( 17 )
-region = Rect2( 0, 0, 32, 32 )
+[sub_resource type="AtlasTexture" id="15"]
+atlas = ExtResource("17")
+region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id=16]
-atlas = ExtResource( 17 )
-region = Rect2( 32, 0, 32, 32 )
+[sub_resource type="AtlasTexture" id="16"]
+atlas = ExtResource("17")
+region = Rect2(32, 0, 32, 32)
 
-[sub_resource type="SpriteFrames" id=17]
-animations = [ {
-"frames": [ SubResource( 15 ), SubResource( 16 ) ],
+[sub_resource type="SpriteFrames" id="17"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("15")
+}, {
+"duration": 1.0,
+"texture": SubResource("16")
+}],
 "loop": true,
-"name": "default",
+"name": &"default",
 "speed": 1.0
-} ]
+}]
 
 [node name="World" type="Node2D"]
 
-[node name="Ground" parent="." instance=ExtResource( 11 )]
+[node name="Ground" parent="." instance=ExtResource("11")]
 
-[node name="house" type="Sprite" parent="."]
-position = Vector2( 472, 40 )
-texture = ExtResource( 16 )
+[node name="house" type="Sprite2D" parent="."]
+position = Vector2(472, 40)
+texture = ExtResource("16")
 
 [node name="HouseLoadingArea" type="Area2D" parent="house"]
-scale = Vector2( 0.998771, 1 )
-script = ExtResource( 1 )
+scale = Vector2(0.998771, 1)
+script = ExtResource("1")
 
 [node name="LoadingShape" type="CollisionShape2D" parent="house/HouseLoadingArea"]
-position = Vector2( 32, 3.5 )
-shape = SubResource( 24 )
+position = Vector2(32, 3.5)
+shape = SubResource("24")
 
 [node name="Mailbox" type="StaticBody2D" parent="."]
-position = Vector2( 552, 64 )
-script = ExtResource( 14 )
+position = Vector2(552, 64)
+script = ExtResource("14")
 mail_menu_path = NodePath("GUI/MailMenu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Mailbox"]
-position = Vector2( 0.5, 1 )
-shape = SubResource( 18 )
+position = Vector2(0.5, 1)
+shape = SubResource("18")
 
-[node name="Sprite" type="Sprite" parent="Mailbox"]
-texture = ExtResource( 13 )
+[node name="Sprite2D" type="Sprite2D" parent="Mailbox"]
+texture = ExtResource("13")
 
 [node name="GUI" type="CanvasLayer" parent="Mailbox"]
 
 [node name="MailMenu" type="ColorRect" parent="Mailbox/GUI"]
 visible = false
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -162.5
-margin_top = -375.0
-margin_right = 242.5
-margin_bottom = -97.0
-color = Color( 0.933333, 0.764706, 0.603922, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_left = -162.5
+offset_top = -375.0
+offset_right = 242.5
+offset_bottom = -97.0
+color = Color(0.933333, 0.764706, 0.603922, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Mailbox/GUI/MailMenu"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="InboxLabel" type="Label" parent="Mailbox/GUI/MailMenu/VBoxContainer"]
-margin_right = 405.0
-margin_bottom = 14.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Inbox"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+horizontal_alignment = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Mailbox/GUI/MailMenu/VBoxContainer"]
-margin_top = 18.0
-margin_right = 405.0
-margin_bottom = 278.0
+layout_mode = 2
 size_flags_vertical = 3
 
 [node name="MailEntries" type="VBoxContainer" parent="Mailbox/GUI/MailMenu/VBoxContainer/ScrollContainer"]
-margin_right = 405.0
+layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MailEntry" parent="Mailbox/GUI/MailMenu/VBoxContainer/ScrollContainer/MailEntries" instance=ExtResource( 9 )]
-margin_top = 0.0
-margin_bottom = 65.0
+[node name="MailEntry" parent="Mailbox/GUI/MailMenu/VBoxContainer/ScrollContainer/MailEntries" instance=ExtResource("9")]
+layout_mode = 2
 
 [node name="Button" type="Button" parent="Mailbox/GUI/MailMenu"]
+layout_mode = 0
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -18.0
-margin_bottom = 18.0
-theme = SubResource( 25 )
+offset_left = -18.0
+offset_bottom = 18.0
+theme = SubResource("25")
 text = "x"
-script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("3")
 menu_path = NodePath("..")
 
-[node name="Slime" parent="." instance=ExtResource( 4 )]
-position = Vector2( 411.187, 128.723 )
+[node name="Slime" parent="." instance=ExtResource("4")]
+position = Vector2(411.187, 128.723)
 
-[node name="Plant1" type="AnimatedSprite" parent="."]
-position = Vector2( 472, 72 )
-scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 17 )
-playing = true
+[node name="Plant1" type="AnimatedSprite2D" parent="."]
+position = Vector2(472, 72)
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("17")
 
-[node name="Plant2" type="AnimatedSprite" parent="."]
-position = Vector2( 536, 72 )
-scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 17 )
-playing = true
+[node name="Plant2" type="AnimatedSprite2D" parent="."]
+position = Vector2(536, 72)
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("17")
 
-[node name="Ore" parent="." instance=ExtResource( 10 )]
+[node name="Ore" parent="." instance=ExtResource("10")]
 
-[node name="Chest" parent="." instance=ExtResource( 2 )]
-position = Vector2( 248.791, 23.9614 )
+[node name="Chest" parent="." instance=ExtResource("2")]
+position = Vector2(248.791, 23.9614)

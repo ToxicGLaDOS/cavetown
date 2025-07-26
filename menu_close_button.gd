@@ -1,6 +1,6 @@
 extends Button
 
-export(NodePath) var menu_path
+@export var menu_path: NodePath
 
 var menu: Control
 
@@ -12,7 +12,7 @@ var menu: Control
 # Called when the node enters the scene tree for the first time.
 func _ready():
     menu = get_node(menu_path)
-    var err = connect("pressed", self, "_close_menu")
+    var err = connect("pressed", Callable(self, "_close_menu"))
     if err != OK:
         push_error("Failed to connect signal pressed. Error was %s" % err)
 

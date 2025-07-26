@@ -6,44 +6,16 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=4
-
-_global_script_classes=[ {
-"base": "TextureRect",
-"class": "Inventory",
-"language": "GDScript",
-"path": "res://gui/inventory.gd"
-}, {
-"base": "Resource",
-"class": "Item",
-"language": "GDScript",
-"path": "res://items/item.gd"
-}, {
-"base": "Reference",
-"class": "ItemStack",
-"language": "GDScript",
-"path": "res://items/item_stack.gd"
-}, {
-"base": "KinematicBody2D",
-"class": "Player",
-"language": "GDScript",
-"path": "res://player/player.gd"
-} ]
-_global_script_class_icons={
-"Inventory": "",
-"Item": "",
-"ItemStack": "",
-"Player": ""
-}
+config_version=5
 
 [application]
 
 config/name="cavetown"
-run/main_scene="res://server_selection_ui.tscn"
+run/main_scene="uid://c1gkbbtivuowu"
+config/features=PackedStringArray("4.4")
 
 [autoload]
 
-NetworkManager="*res://networking_manager.gd"
 SceneSwitcher="*res://scene_switcher.gd"
 
 [global]
@@ -81,5 +53,5 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+environment/defaults/default_environment="res://default_env.tres"
 2d/snapping/use_gpu_pixel_snap=true
-environment/default_environment="res://default_env.tres"

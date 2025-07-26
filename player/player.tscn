@@ -1,222 +1,211 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=19 format=3 uid="uid://cp021o40625q6"]
 
-[ext_resource path="res://images/character.png" type="Texture" id=1]
-[ext_resource path="res://targeting_mesh/target_mesh.gd" type="Script" id=2]
-[ext_resource path="res://player/player.gd" type="Script" id=3]
-[ext_resource path="res://player/sword.tscn" type="PackedScene" id=4]
-[ext_resource path="res://gui/inventory.gd" type="Script" id=5]
-[ext_resource path="res://gui/inventory_icon.tscn" type="PackedScene" id=6]
-[ext_resource path="res://images/inventory_selector.png" type="Texture" id=8]
-[ext_resource path="res://images/inventory.png" type="Texture" id=9]
+[ext_resource type="Texture2D" uid="uid://d04y4dcl7l3ll" path="res://images/character.png" id="1"]
+[ext_resource type="Script" uid="uid://cdrgax7ctcbqa" path="res://targeting_mesh/target_mesh.gd" id="2"]
+[ext_resource type="Script" uid="uid://y44abo3emflm" path="res://player/player.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://bp61e78shid41" path="res://player/sword.tscn" id="4"]
+[ext_resource type="Script" uid="uid://bgf2xfo1deej4" path="res://gui/inventory.gd" id="5"]
+[ext_resource type="PackedScene" path="res://gui/inventory_icon.tscn" id="6"]
+[ext_resource type="Texture2D" uid="uid://dtw3s0jygorck" path="res://images/inventory_selector.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://cghijvav837wb" path="res://images/inventory.png" id="9"]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 10, 29.2098 )
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(20, 58.4196)
 
-[sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 1 )
-region = Rect2( 0, 0, 64, 64 )
+[sub_resource type="AtlasTexture" id="14"]
+atlas = ExtResource("1")
+region = Rect2(0, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id=11]
-atlas = ExtResource( 1 )
-region = Rect2( 0, 128, 64, 64 )
+[sub_resource type="AtlasTexture" id="11"]
+atlas = ExtResource("1")
+region = Rect2(0, 128, 64, 64)
 
-[sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 1 )
-region = Rect2( 0, 192, 64, 64 )
+[sub_resource type="AtlasTexture" id="12"]
+atlas = ExtResource("1")
+region = Rect2(0, 192, 64, 64)
 
-[sub_resource type="AtlasTexture" id=13]
-atlas = ExtResource( 1 )
-region = Rect2( 0, 64, 64, 64 )
+[sub_resource type="AtlasTexture" id="13"]
+atlas = ExtResource("1")
+region = Rect2(0, 64, 64, 64)
 
-[sub_resource type="SpriteFrames" id=10]
-animations = [ {
-"frames": [ SubResource( 14 ) ],
+[sub_resource type="SpriteFrames" id="10"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("14")
+}],
 "loop": true,
-"name": "down",
+"name": &"down",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 11 ) ],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("11")
+}],
 "loop": true,
-"name": "left",
+"name": &"left",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 12 ) ],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("12")
+}],
 "loop": true,
-"name": "right",
+"name": &"right",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 13 ) ],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("13")
+}],
 "loop": true,
-"name": "up",
+"name": &"up",
 "speed": 5.0
-} ]
+}]
 
-[sub_resource type="CircleShape2D" id=15]
+[sub_resource type="CircleShape2D" id="15"]
 radius = 9.00576
 
-[sub_resource type="ArrayMesh" id=16]
+[sub_resource type="ArrayMesh" id="16"]
 
-[sub_resource type="Curve" id=17]
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 1, Vector2( 1, 1 ), 0.0, 0.0, 1, 0 ]
+[sub_resource type="Curve" id="17"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 1, Vector2(1, 1), 0.0, 0.0, 1, 0]
+point_count = 2
 
-[sub_resource type="CurveTexture" id=18]
-curve = SubResource( 17 )
+[sub_resource type="CurveTexture" id="18"]
+curve = SubResource("17")
 
-[node name="KinematicBody2D" type="KinematicBody2D" groups=["player"]]
-scale = Vector2( 0.5, 0.5 )
-collision_layer = 2
-script = ExtResource( 3 )
-sword_path = NodePath("InterationArea/Sprite")
-animated_sprite_path = NodePath("AnimatedSprite")
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["player"]]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("3")
+sword_path = NodePath("InterationArea/Sprite2D")
+animated_sprite_path = NodePath("AnimatedSprite2D")
 interaction_area_path = NodePath("InterationArea")
 speed = 15000.0
 health = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+shape = SubResource("1")
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-frames = SubResource( 10 )
-animation = "right"
-playing = true
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("10")
+animation = &"right"
 
 [node name="Camera2D" type="Camera2D" parent="."]
-current = true
-zoom = Vector2( 0.5, 0.5 )
 
 [node name="InterationArea" type="Area2D" parent="."]
-position = Vector2( 20, 0 )
+position = Vector2(20, 0)
 
-[node name="Sprite" parent="InterationArea" instance=ExtResource( 4 )]
+[node name="Sprite2D" parent="InterationArea" instance=ExtResource("4")]
 visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InterationArea"]
-shape = SubResource( 15 )
+shape = SubResource("15")
 
 [node name="NameLabel" type="Label" parent="."]
+anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-margin_top = -44.0
-margin_bottom = -30.0
+offset_top = -44.0
+offset_bottom = -30.0
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="."]
 visible = false
-position = Vector2( -20, 0 )
-mesh = SubResource( 16 )
-texture = SubResource( 18 )
-script = ExtResource( 2 )
+position = Vector2(-20, 0)
+mesh = SubResource("16")
+texture = SubResource("18")
+script = ExtResource("2")
 player_path = NodePath("..")
 
 [node name="GUI" type="CanvasLayer" parent="."]
 
 [node name="Inventory" type="TextureRect" parent="GUI" groups=["inventory"]]
+anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -250.0
-margin_top = -50.0
-margin_right = 250.0
-rect_pivot_offset = Vector2( 0, 50 )
-texture = ExtResource( 9 )
+offset_left = -250.0
+offset_top = -50.0
+offset_right = 250.0
+pivot_offset = Vector2(0, 50)
+texture = ExtResource("9")
 stretch_mode = 3
-script = ExtResource( 5 )
-inventory_icon_scene = ExtResource( 6 )
+script = ExtResource("5")
+inventory_icon_scene = ExtResource("6")
 selector_indicator = NodePath("Control/inventory_selector")
 
 [node name="Control" type="Control" parent="GUI/Inventory"]
-margin_left = 3.11813
-margin_top = 4.8999
-margin_right = 43.1181
-margin_bottom = 44.8999
-__meta__ = {
-"_edit_use_anchors_": false
-}
+anchors_preset = 0
+offset_left = 3.11813
+offset_top = 4.8999
+offset_right = 43.1181
+offset_bottom = 44.8999
 
 [node name="inventory_selector" type="TextureRect" parent="GUI/Inventory/Control"]
-texture = ExtResource( 8 )
+layout_mode = 0
+texture = ExtResource("8")
 stretch_mode = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Control2" type="Control" parent="GUI/Inventory"]
-margin_left = 49.4449
-margin_top = 4.45447
-margin_right = 89.4449
-margin_bottom = 44.4545
-__meta__ = {
-"_edit_use_anchors_": false
-}
+anchors_preset = 0
+offset_left = 49.4449
+offset_top = 4.45447
+offset_right = 89.4449
+offset_bottom = 44.4545
 
 [node name="Control3" type="Control" parent="GUI/Inventory"]
-margin_left = 96.2171
-margin_top = 4.45447
-margin_right = 136.217
-margin_bottom = 44.4545
-__meta__ = {
-"_edit_use_anchors_": false
-}
+anchors_preset = 0
+offset_left = 96.2171
+offset_top = 4.45447
+offset_right = 136.217
+offset_bottom = 44.4545
 
 [node name="Control4" type="Control" parent="GUI/Inventory"]
-margin_left = 143.435
-margin_top = 4.00897
-margin_right = 183.435
-margin_bottom = 44.009
-__meta__ = {
-"_edit_use_anchors_": false
-}
+anchors_preset = 0
+offset_left = 143.435
+offset_top = 4.00897
+offset_right = 183.435
+offset_bottom = 44.009
 
 [node name="Control5" type="Control" parent="GUI/Inventory"]
-margin_left = 189.316
-margin_top = 3.1181
-margin_right = 229.316
-margin_bottom = 43.1181
-__meta__ = {
-"_edit_use_anchors_": false
-}
+anchors_preset = 0
+offset_left = 189.316
+offset_top = 3.1181
+offset_right = 229.316
+offset_bottom = 43.1181
 
 [node name="Control6" type="Control" parent="GUI/Inventory"]
-margin_left = 271.724
-margin_top = 3.56348
-margin_right = 311.724
-margin_bottom = 43.5635
-__meta__ = {
-"_edit_use_anchors_": false
-}
+anchors_preset = 0
+offset_left = 271.724
+offset_top = 3.56348
+offset_right = 311.724
+offset_bottom = 43.5635
 
 [node name="Control7" type="Control" parent="GUI/Inventory"]
-margin_left = 316.269
-margin_top = 4.45447
-margin_right = 356.269
-margin_bottom = 44.4545
-__meta__ = {
-"_edit_use_anchors_": false
-}
+anchors_preset = 0
+offset_left = 316.269
+offset_top = 4.45447
+offset_right = 356.269
+offset_bottom = 44.4545
 
 [node name="Control8" type="Control" parent="GUI/Inventory"]
-margin_left = 363.932
-margin_top = 5.79077
-margin_right = 403.932
-margin_bottom = 45.7908
-__meta__ = {
-"_edit_use_anchors_": false
-}
+anchors_preset = 0
+offset_left = 363.932
+offset_top = 5.79077
+offset_right = 403.932
+offset_bottom = 45.7908
 
 [node name="Control9" type="Control" parent="GUI/Inventory"]
-margin_left = 410.259
-margin_top = 5.34528
-margin_right = 450.259
-margin_bottom = 45.3453
-__meta__ = {
-"_edit_use_anchors_": false
-}
+anchors_preset = 0
+offset_left = 410.259
+offset_top = 5.34528
+offset_right = 450.259
+offset_bottom = 45.3453
 
 [node name="Control10" type="Control" parent="GUI/Inventory"]
-margin_left = 457.031
-margin_top = 5.34528
-margin_right = 497.031
-margin_bottom = 45.3453
-__meta__ = {
-"_edit_use_anchors_": false
-}
+anchors_preset = 0
+offset_left = 457.031
+offset_top = 5.34528
+offset_right = 497.031
+offset_bottom = 45.3453

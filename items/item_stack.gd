@@ -1,4 +1,4 @@
 class_name ItemStack
 
-export(Resource) var item
+@export var item: Resource
 var quantity: int = 0

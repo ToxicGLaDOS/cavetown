@@ -1,7 +1,7 @@
-extends Sprite
+extends Sprite2D
 
-export(NodePath) var animation_player_path
-export(NodePath) var hitbox_path
+@export var animation_player_path: NodePath
+@export var hitbox_path: NodePath
 
 var animation_player: AnimationPlayer
 var hitbox: Area2D
@@ -18,14 +18,8 @@ func _on_animation_finished(anim_name):
         hitbox.monitoring = false
 
 func _on_body_entered(body):
-    # We only want the network master to tell us when they
-    # hit an enemy because if everyone does it, then we'll
-    # deal 1 damage per player when anyone hits an enemy
     if body.is_in_group("enemies"):
-        if get_tree().network_peer == null:
-            body.deal_damage(1)
-        elif is_network_master():
-            body.rpc("deal_damage", 1)
+        body.deal_damage(1)
 
 func swing():
     visible = true
