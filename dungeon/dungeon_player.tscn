@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://da8e3b6v58o51"]
+[gd_scene load_steps=9 format=3 uid="uid://da8e3b6v58o51"]
 
 [ext_resource type="Texture2D" uid="uid://d04y4dcl7l3ll" path="res://images/character.png" id="1_ndugx"]
 [ext_resource type="Script" uid="uid://cg0dlvmlgycn8" path="res://dungeon/dungeon_player.gd" id="2_54j52"]
@@ -54,6 +54,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ndugx"]
+size = Vector2(20, 47)
+
 [node name="DungeonPlayer" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_l78sm")
 animation = &"right"
@@ -61,3 +64,14 @@ script = ExtResource("2_54j52")
 animated_sprite_path = NodePath(".")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 5.5)
+shape = SubResource("RectangleShape2D_ndugx")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(0, 7)
+target_position = Vector2(0, 32)

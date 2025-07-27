@@ -22,8 +22,8 @@ class_name DungeonGenerator
 @export var num_rooms: int
 @export var max_attempts_per_room: int
 
-var floor_atlas_position = Vector2i(5, 16)
-var wall_atlas_position = Vector2i(4, 4)
+var floor_atlas_position = Vector2i(2, 8)
+var wall_atlas_position = Vector2i(2, 2)
 var tile_source_id = 1
 var rooms: Array[Room] = []
 var astar_grid = AStarGrid2D.new()
@@ -101,7 +101,7 @@ func generate_dungeon():
 	var dungeon_size = dungeon_max_bounds - dungeon_min_bounds + Vector2i(1, 1)
 	astar_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
 	astar_grid.cell_size = Vector2(32, 32)
-	
+
 	var attempts = 0
 	while true:
 		attempts += 1
@@ -147,3 +147,22 @@ func generate_dungeon():
 				# Draw the path
 				for point in path:
 					floor_tiles.set_cell(point, tile_source_id, floor_atlas_position)
+	for x in range(dungeon_size.x):
+		for y in range(dungeon_size.y):
+			var x_pos = dungeon_min_bounds.x + x
+			var y_pos = dungeon_min_bounds.y + y
+			var tile_pos = Vector2i(x_pos, y_pos)
+			var atlas_position = floor_tiles.get_cell_atlas_coords(tile_pos)
+			if atlas_position == floor_atlas_position:
+				surround_with_walls(tile_pos)
+
+func surround_with_walls(tile_pos: Vector2i):
+	for x in range(-1, 2):
+		for y in range(-1, 2):
+			# Skip the tile that was passed in
+			if x == 0 and y == 0:
+				continue
+			var relative_pos = Vector2i(x, y)
+			var wall_pos = tile_pos + relative_pos
+			if floor_tiles.get_cell_tile_data(wall_pos) == null:
+				floor_tiles.set_cell(wall_pos, tile_source_id, wall_atlas_position)
