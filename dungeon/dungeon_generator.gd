@@ -21,6 +21,7 @@ class_name DungeonGenerator
 @export var room_max_size: int
 @export var num_rooms: int
 @export var max_attempts_per_room: int
+@export var minimap: MiniMap
 
 var floor_atlas_position = Vector2i(2, 8)
 var wall_atlas_position = Vector2i(2, 2)
@@ -147,6 +148,8 @@ func generate_dungeon():
 				# Draw the path
 				for point in path:
 					floor_tiles.set_cell(point, tile_source_id, floor_atlas_position)
+
+	# Enclose open paths
 	for x in range(dungeon_size.x):
 		for y in range(dungeon_size.y):
 			var x_pos = dungeon_min_bounds.x + x
@@ -155,6 +158,9 @@ func generate_dungeon():
 			var atlas_position = floor_tiles.get_cell_atlas_coords(tile_pos)
 			if atlas_position == floor_atlas_position:
 				surround_with_walls(tile_pos)
+
+	minimap.clear_minimap()
+	minimap.create_minimap(floor_tiles, wall_atlas_position)
 
 func surround_with_walls(tile_pos: Vector2i):
 	for x in range(-1, 2):

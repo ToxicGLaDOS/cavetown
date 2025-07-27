@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://ibx2jp6io3xi"]
+[gd_scene load_steps=9 format=3 uid="uid://ibx2jp6io3xi"]
 
 [ext_resource type="Script" uid="uid://cpuxmmi4kmcpq" path="res://dungeon/dungeon_generator.gd" id="1_d7mhw"]
 [ext_resource type="PackedScene" uid="uid://da8e3b6v58o51" path="res://dungeon/dungeon_player.tscn" id="1_mntb8"]
 [ext_resource type="Texture2D" uid="uid://dmyt4jox4fbsb" path="res://images/Terrain (32x32).png" id="2_5wmeu"]
+[ext_resource type="Script" uid="uid://ci1dik738nxp" path="res://dungeon/mini_map.gd" id="3_oan55"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oan55"]
 texture = ExtResource("2_5wmeu")
@@ -76,9 +77,68 @@ tile_size = Vector2i(32, 32)
 physics_layer_0/collision_layer = 1
 sources/1 = SubResource("TileSetAtlasSource_oan55")
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2uogr"]
+texture = ExtResource("2_5wmeu")
+texture_region_size = Vector2i(32, 32)
+2:2/0 = 0
+3:2/0 = 0
+5:2/0 = 0
+7:2/0 = 0
+10:2/0 = 0
+11:2/0 = 0
+14:2/0 = 0
+16:2/0 = 0
+17:2/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+5:3/0 = 0
+7:4/0 = 0
+10:4/0 = 0
+11:4/0 = 0
+14:4/0 = 0
+16:4/0 = 0
+17:4/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+5:5/0 = 0
+7:5/0 = 0
+10:5/0 = 0
+11:5/0 = 0
+14:5/0 = 0
+16:5/0 = 0
+17:5/0 = 0
+2:7/0 = 0
+3:7/0 = 0
+5:7/0 = 0
+7:7/0 = 0
+10:7/0 = 0
+11:7/0 = 0
+14:8/0 = 0
+16:8/0 = 0
+17:8/0 = 0
+7:10/0 = 0
+10:10/0 = 0
+11:10/0 = 0
+14:10/0 = 0
+16:10/0 = 0
+17:10/0 = 0
+2:11/0 = 0
+3:11/0 = 0
+5:11/0 = 0
+7:11/0 = 0
+10:11/0 = 0
+11:11/0 = 0
+14:11/0 = 0
+16:11/0 = 0
+17:11/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_cy6l0"]
+tile_size = Vector2i(32, 32)
+sources/0 = SubResource("TileSetAtlasSource_2uogr")
+
 [node name="Dungeon" type="Node2D"]
 
-[node name="DungeonGenerator" type="Node2D" parent="." node_paths=PackedStringArray("floor_tiles")]
+[node name="DungeonGenerator" type="Node2D" parent="." node_paths=PackedStringArray("floor_tiles", "minimap")]
 script = ExtResource("1_d7mhw")
 floor_tiles = NodePath("TileMapLayer")
 dungeon_min_bounds = Vector2i(-60, -60)
@@ -87,10 +147,19 @@ room_min_size = 9
 room_max_size = 17
 num_rooms = 9
 max_attempts_per_room = 100
+minimap = NodePath("../DungeonPlayer/MiniMap")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="DungeonGenerator"]
 tile_set = SubResource("TileSet_2uogr")
 
 [node name="DungeonPlayer" parent="." node_paths=PackedStringArray("generator") instance=ExtResource("1_mntb8")]
-position = Vector2(16, 13)
+position = Vector2(16, 16)
 generator = NodePath("../DungeonGenerator")
+
+[node name="MiniMap" type="Node2D" parent="DungeonPlayer"]
+position = Vector2(-111, -61)
+scale = Vector2(0.05, 0.05)
+script = ExtResource("3_oan55")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="DungeonPlayer/MiniMap"]
+tile_set = SubResource("TileSet_cy6l0")

@@ -5,6 +5,7 @@ extends AnimatedSprite2D
 @export var generator: DungeonGenerator
 
 @onready var ray = $RayCast2D
+@onready var minimap = $MiniMap
 
 enum Direction {UP, LEFT, DOWN, RIGHT}
 
@@ -19,6 +20,9 @@ func _input(event):
 	# Make sure that we only move ourselves
 
 	if event is InputEventKey and event.pressed:
+		# We subtract one to because Vector2(16, 16).snappedf(32) = (1, 1) instead of (0, 0)
+		# even though (16, 16) centers the player on the (0, 0) tile for tile maps.
+		var old_tile_pos = position.snappedf(tile_size) / tile_size - Vector2.ONE
 		if event.keycode == KEY_W:
 			ray.target_position = Vector2i.UP * tile_size
 			ray.force_raycast_update()
@@ -49,6 +53,9 @@ func _input(event):
 
 		if event.keycode == KEY_SPACE:
 			generator.generate_dungeon()
+
+		var new_tile_pos = position.snappedf(tile_size) / tile_size - Vector2.ONE
+		minimap.set_player_position(old_tile_pos, new_tile_pos)
 
 func rotate_character(direction):
 	if direction == Direction.UP:
