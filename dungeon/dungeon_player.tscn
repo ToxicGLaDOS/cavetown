@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3 uid="uid://da8e3b6v58o51"]
+
+[ext_resource type="Texture2D" uid="uid://d04y4dcl7l3ll" path="res://images/character.png" id="1_ndugx"]
+[ext_resource type="Script" uid="uid://cg0dlvmlgycn8" path="res://dungeon/dungeon_player.gd" id="2_54j52"]
+
+[sub_resource type="AtlasTexture" id="14"]
+atlas = ExtResource("1_ndugx")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="11"]
+atlas = ExtResource("1_ndugx")
+region = Rect2(0, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="12"]
+atlas = ExtResource("1_ndugx")
+region = Rect2(0, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="13"]
+atlas = ExtResource("1_ndugx")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l78sm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("14")
+}],
+"loop": true,
+"name": &"down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("11")
+}],
+"loop": true,
+"name": &"left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("12")
+}],
+"loop": true,
+"name": &"right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("13")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}]
+
+[node name="DungeonPlayer" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_l78sm")
+animation = &"right"
+script = ExtResource("2_54j52")
+animated_sprite_path = NodePath(".")
+
+[node name="Camera2D" type="Camera2D" parent="."]
